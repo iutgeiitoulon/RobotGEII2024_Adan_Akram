@@ -1,3 +1,5 @@
+
+#include <xc.h>
 #include "ChipConfig.h"
 
 // DSPIC33EP512MU814 Configuration Bit Settings
@@ -55,7 +57,6 @@
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
 
-#include <xc.h>
 
 void InitOscillator() {
 
@@ -88,7 +89,7 @@ void InitOscillator() {
 
     ACLKCON3bits.ENAPLL = 1;
     while (ACLKCON3bits.APLLCK != 1);
-    
+
     // Wait for PLL to lock
     while (OSCCONbits.LOCK != 1);
 
