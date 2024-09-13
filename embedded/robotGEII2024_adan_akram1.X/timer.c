@@ -30,11 +30,11 @@ void InitTimer23(void) {
     T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
     T2CONbits.T32 = 1; // Enable 32-bit Timer mode
     T2CONbits.TCS = 0; // Select internal instruction cycle clock
-    T2CONbits.TCKPS = 0b10; // Select 1:1 Prescaler
+    T2CONbits.TCKPS = 0b01; // Select 1:1 Prescaler
     TMR3 = 0x00; // Clear 32-bit Timer (msw)
     TMR2 = 0x00; // Clear 32-bit Timer (lsw)
-    PR3 = 0x001C; // Load 32-bit period value (msw) // a modif
-    PR2 = 0x9BDC; // Load 32-bit period value (lsw) // a modif
+    PR3 = 0xFFFF; // Load 32-bit period value (msw) // a modif
+    PR2 = 0x0726; // Load 32-bit period value (lsw) // a modif
     IPC2bits.T3IP = 0x01; // Set Timer3 Interrupt Priority Level
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     IEC0bits.T3IE = 1; // Enable Timer3 interrupt
