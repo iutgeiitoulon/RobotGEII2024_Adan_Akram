@@ -9,7 +9,7 @@ typedef struct robotStateBITS {
             float vitesseGaucheConsigne;
             float vitesseGaucheCommandeCourante;
             float vitesseDroiteConsigne;
-            float vitesseDroiteCommandeCourante;
+            float vitesseDroiteCommandeCourante; 
         };
     };
 } ROBOT_STATE_BITS;
