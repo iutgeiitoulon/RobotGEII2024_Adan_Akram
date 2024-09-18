@@ -36,7 +36,7 @@ int main(void) {
     //PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
     //PWMSetSpeedConsigne(30, MOTEUR_DROIT);
 
-    LED_BLANCHE_1 = 1;
+    /*LED_BLANCHE_1 = 1;
     LED_BLEUE_1 = 1;
     LED_ORANGE_1 = 1;
     LED_ROUGE_1 = 1;
@@ -46,8 +46,8 @@ int main(void) {
     LED_BLEUE_2 = 1;
     LED_ORANGE_2 = 1;
     LED_ROUGE_2 = 1;
-    LED_VERTE_2 = 1;
-    
+    LED_VERTE_2 = 1;*/
+
     static int ADCValue0;
     static int ADCValue1;
     static int ADCValue2;
@@ -56,12 +56,22 @@ int main(void) {
         if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
-            
+
             ADCValue0 = result[0];
             ADCValue1 = result[1];
             ADCValue2 = result[2];
-            
+
         }
+        /*if (ADCIsConversionFinished() == 1) {
+            ADCClearConversionFinishedFlag();
+            unsigned int * result = ADCGetResult();
+            float volts = ((float) result [0])* 3.3 / 4096;
+            robotState.distanceTelemetreGauche = 34 / volts - 5;
+            volts = ((float) result [1])* 3.3 / 4096;
+            robotState.distanceTelemetreCentre = 34 / volts - 5;
+            volts = ((float) result [2])* 3.3 / 4096;
+            robotState.distanceTelemetreDroit = 34 / volts - 5;
+        }*/
     } // fin main
 }
 
