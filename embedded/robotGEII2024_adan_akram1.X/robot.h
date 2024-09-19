@@ -3,13 +3,18 @@
 #define ROBOT_H
 
 typedef struct robotStateBITS {
+
     union {
+
         struct {
             unsigned char taskEnCours;
             float vitesseGaucheConsigne;
             float vitesseGaucheCommandeCourante;
             float vitesseDroiteConsigne;
-            float vitesseDroiteCommandeCourante; 
+            float vitesseDroiteCommandeCourante;
+            float distanceTelemetreCentre;
+            float distanceTelemetreGauche;
+            float distanceTelemetreDroit;
         };
     };
 } ROBOT_STATE_BITS;
