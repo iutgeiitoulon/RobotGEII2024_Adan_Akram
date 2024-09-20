@@ -51,6 +51,8 @@ int main(void) {
     static int ADCValue0;
     static int ADCValue1;
     static int ADCValue2;
+    static int ADCValue3;
+    static int ADCValue4;
     /*******************   Boucle Principale   ******************************************************/
     while (1) {
         if (ADCIsConversionFinished()) {
@@ -70,21 +72,35 @@ int main(void) {
             robotState.distanceTelemetreCentre = 34 / volts - 5;
             volts = ((float) result [2])* 3.3 / 4096;
             robotState.distanceTelemetreDroit = 34 / volts - 5;
+            volts = ((float) result [3])* 3.3 / 4096;
+            robotState.distanceTelemetreExtremeDroite = 34 / volts - 5;
+            volts = ((float) result [4])* 3.3 / 4096;
+            robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
         }
         if (robotState.distanceTelemetreCentre < 30) {
-             LED_ORANGE_1 = 1;
+            LED_ORANGE_1 = 1;
         } else {
-             LED_ORANGE_1 = 0;
+            LED_ORANGE_1 = 0;
         }
         if (robotState.distanceTelemetreGauche < 30) {
+            LED_BLEUE_1 = 1;
+        } else {
+            LED_BLEUE_1 = 0;
+        }
+        if (robotState.distanceTelemetreDroit < 30) {
+            LED_ROUGE_1 = 1;
+        } else {
+            LED_ROUGE_1 = 0;
+        }
+        if (robotState.distanceTelemetreExtremeDroite < 30) {
+            LED_VERTE_1 = 1;
+        } else {
+            LED_VERTE_1 = 0;
+        }
+        if (robotState.distanceTelemetreExtremeGauche < 30) {
             LED_BLANCHE_1 = 1;
         } else {
             LED_BLANCHE_1 = 0;
-        }
-                if (robotState.distanceTelemetreDroit < 30) {
-             LED_VERTE_1 = 1;
-        } else {
-             LED_VERTE_1 = 0;
         }
     } // fin main
 
