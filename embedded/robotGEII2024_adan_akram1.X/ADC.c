@@ -43,14 +43,20 @@ void InitADC1(void) {
     /************************************************************/
     //Configuration des ports
     /************************************************************/
-    //ADC éutiliss : 8(B8)-9(B9)-10(B10)
+
+    ANSELBbits.ANSB0 = 1;
     ANSELBbits.ANSB8 = 1;
     ANSELBbits.ANSB9 = 1;
     ANSELBbits.ANSB10 = 1;
+    ANSELBbits.ANSB11 = 1;
+
+    AD1CSSLbits.CSS0 = 1;
     AD1CSSLbits.CSS8 = 1; // Enable AN8 for scan
     AD1CSSLbits.CSS9 = 1; // Enable AN9 for scan
     AD1CSSLbits.CSS10 = 1; // Enable AN10 for scan
-    /* Assign MUXA inputs */
+    AD1CSSLbits.CSS11 = 1;
+
+
     AD1CHS0bits.CH0SA = 0; // CH0SA bits ignored for CH0 +ve input selection
     AD1CHS0bits.CH0NA = 0; // Select VREF- for CH0 -ve inpu
     IFS0bits.AD1IF = 0; // Clear the A/D interrupt flag bit

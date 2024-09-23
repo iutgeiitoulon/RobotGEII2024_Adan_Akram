@@ -6,6 +6,7 @@
 #include "main.h"
 
 //Initialisation d?un timer 16 bits
+unsigned long timestamp;
 
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
@@ -27,6 +28,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     //LED_BLANCHE_1 = !LED_BLANCHE_1;
     ADC1StartConversionSequence();
+    DetCapteur();
 }
 //Initialisation d?un timer 32 bits
 
@@ -115,7 +117,7 @@ void InitTimer4(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
-    //LED_BLANCHE_1 = !LED_BLANCHE_1;
-    ADC1StartConversionSequence();
+    timestamp = timestamp +1;
+    OperatingSystemLoop();
     SetFreqTimer4(1000);
 }
