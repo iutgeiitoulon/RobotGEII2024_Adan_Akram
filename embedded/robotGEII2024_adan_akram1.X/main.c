@@ -152,11 +152,6 @@ int main(void) {
         } else {
             LED_BLANCHE_1 = 0;
         }
-        if (robotState.distanceTelemetreDroit < 30) {
-            LED_VERTE_1 = 1;
-        } else {
-            LED_VERTE_1 = 0;
-        }
     } // fin main
 
 }
