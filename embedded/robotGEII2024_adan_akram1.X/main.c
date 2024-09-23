@@ -15,6 +15,7 @@
 #include "robot.h"
 #include "ToolBox.h"
 #include "ADC.h"
+#include "main.h"
 
 int main(void) {
     /***********************************************************************************************/
@@ -72,19 +73,19 @@ int main(void) {
             robotState.distanceTelemetreDroit = 34 / volts - 5;
         }
         if (robotState.distanceTelemetreCentre < 30) {
-             LED_ORANGE_1 = 1;
+            LED_ORANGE_1 = 1;
         } else {
-             LED_ORANGE_1 = 0;
+            LED_ORANGE_1 = 0;
         }
         if (robotState.distanceTelemetreGauche < 30) {
             LED_BLANCHE_1 = 1;
         } else {
             LED_BLANCHE_1 = 0;
         }
-                if (robotState.distanceTelemetreDroit < 30) {
-             LED_VERTE_1 = 1;
+        if (robotState.distanceTelemetreDroit < 30) {
+            LED_VERTE_1 = 1;
         } else {
-             LED_VERTE_1 = 0;
+            LED_VERTE_1 = 0;
         }
     } // fin main
 

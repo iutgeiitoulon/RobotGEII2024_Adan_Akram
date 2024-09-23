@@ -4,6 +4,7 @@
 #include "robot.h"
 #include "ToolBox.h"
 #include "timer.h"
+#include "main.h"
 
 
 #define PWMPER 24.0
