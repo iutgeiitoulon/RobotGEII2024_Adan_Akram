@@ -17,6 +17,62 @@
 #include "ADC.h"
 #include "main.h"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(void) {
     /***********************************************************************************************/
     //Initialisation oscillateur
@@ -29,13 +85,10 @@ int main(void) {
 
 
     InitTimer1();
+    InitTimer4();
     InitTimer23();
     InitPWM();
-
     InitADC1();
-
-    //PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-    //PWMSetSpeedConsigne(30, MOTEUR_DROIT);
 
     /*LED_BLANCHE_1 = 1;
     LED_BLEUE_1 = 1;
@@ -49,19 +102,17 @@ int main(void) {
     LED_ROUGE_2 = 1;
     LED_VERTE_2 = 1;*/
 
-    static int ADCValue0;
-    static int ADCValue1;
-    static int ADCValue2;
     /*******************   Boucle Principale   ******************************************************/
     while (1) {
-        if (ADCIsConversionFinished()) {
+        /*if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
-
-            //ADCValue0 = result[0];
-            //ADCValue1 = result[1];
-            //ADCValue2 = result[2];
-        }
+            ADCValue0 = result[0];
+            ADCValue1 = result[1];
+            ADCValue2 = result[2];
+            ADCValue3 = result[3];
+            ADCValue4 = result[4];
+        }*/
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
@@ -71,6 +122,10 @@ int main(void) {
             robotState.distanceTelemetreCentre = 34 / volts - 5;
             volts = ((float) result [2])* 3.3 / 4096;
             robotState.distanceTelemetreDroit = 34 / volts - 5;
+            volts = ((float) result [3])* 3.3 / 4096;
+            robotState.distanceTelemetreExtremeDroite = 34 / volts - 5;
+            volts = ((float) result [4])* 3.3 / 4096;
+            robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
         }
         if (robotState.distanceTelemetreCentre < 30) {
             LED_ORANGE_1 = 1;
@@ -78,6 +133,21 @@ int main(void) {
             LED_ORANGE_1 = 0;
         }
         if (robotState.distanceTelemetreGauche < 30) {
+            LED_BLEUE_1 = 1;
+        } else {
+            LED_BLEUE_1 = 0;
+        }
+        if (robotState.distanceTelemetreDroit < 30) {
+            LED_ROUGE_1 = 1;
+        } else {
+            LED_ROUGE_1 = 0;
+        }
+        if (robotState.distanceTelemetreExtremeDroite < 30) {
+            LED_VERTE_1 = 1;
+        } else {
+            LED_VERTE_1 = 0;
+        }
+        if (robotState.distanceTelemetreExtremeGauche < 30) {
             LED_BLANCHE_1 = 1;
         } else {
             LED_BLANCHE_1 = 0;
