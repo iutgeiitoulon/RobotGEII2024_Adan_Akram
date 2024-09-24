@@ -7,7 +7,7 @@ void Cap();
 #define FCY 60000000
 
 #define STATE_ATTENTE 0
-#define STATE_ATTENTE_EN_COURS 1
+#define STATE_AVANCE_LENT 1
 #define STATE_AVANCE 2
 #define STATE_AVANCE_EN_COURS 3
 #define STATE_TOURNE_GAUCHE 4
