@@ -29,6 +29,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     ADC1StartConversionSequence();
     PWMUpdateSpeed();
+    Cap();
 }
 //Initialisation d?un timer 32 bits
 
@@ -98,7 +99,7 @@ void InitTimer4(void) {
     T4CONbits.TON = 1; // Enable Timer
 }
 
- void SetFreqTimer4(float freq) {
+void SetFreqTimer4(float freq) {
     T4CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
     if (FCY / freq > 65535) {
         T4CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
@@ -117,6 +118,7 @@ void InitTimer4(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
-    timestamp = timestamp +1;
-    //OperatingSystemLoop();
+    timestamp = timestamp + 1;
+    OperatingSystemLoop();
+
 }

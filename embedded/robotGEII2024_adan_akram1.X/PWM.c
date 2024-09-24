@@ -39,7 +39,7 @@ double talon = 20;
 
 float acceleration = 5;
 
- void PWMUpdateSpeed() {
+void PWMUpdateSpeed() {
     // Cette fonction est appelee sur timer et permet de suivre des rampes d acceleration
     if (robotState.vitesseDroiteCommandeCourante < robotState.vitesseDroiteConsigne) {
         robotState.vitesseDroiteCommandeCourante = Min(
@@ -52,11 +52,11 @@ float acceleration = 5;
                 robotState.vitesseDroiteConsigne);
     }
     if (robotState.vitesseDroiteCommandeCourante >= 0) {
-        PDC1 = robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
-        SDC1 = talon;
+        PDC2 = robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
+        SDC2 = talon;
     } else {
-        PDC1 = talon;
-        SDC1 = -robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
+        PDC2 = talon;
+        SDC2 = -robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
     }
     if (robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne) {
         robotState.vitesseGaucheCommandeCourante = Min(
@@ -69,20 +69,19 @@ float acceleration = 5;
                 robotState.vitesseGaucheConsigne);
     }
     if (robotState.vitesseGaucheCommandeCourante > 0) {
-        PDC2 = robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
-        SDC2 = talon;
+        PDC1 = robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
+        SDC1 = talon;
     } else {
-        PDC2 = talon;
-        SDC2 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
+        PDC1 = talon;
+        SDC1 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
     }
 }
 
 void PWMSetSpeedConsigne(float vitesseEnPourcents, int MOTEUR) {
     if (MOTEUR == MOTEUR_DROIT) {
-        robotState.vitesseDroiteConsigne = vitesseEnPourcents;
-    } 
-    else if (MOTEUR == MOTEUR_GAUCHE) 
-    {
+        robotState.vitesseDroiteConsigne = -vitesseEnPourcents;
+    }
+    else if (MOTEUR == MOTEUR_GAUCHE) {
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
     }
 }

@@ -1,6 +1,7 @@
 
 #include <xc.h>
 #include "ChipConfig.h"
+#include "main.h"
 
 // DSPIC33EP512MU814 Configuration Bit Settings
 
@@ -56,7 +57,6 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-
 
 void InitOscillator() {
 

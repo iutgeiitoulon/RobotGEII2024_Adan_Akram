@@ -1,6 +1,9 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+void OperatingSystemLoop();
+void SetNextRobotStateInAutomaticMode();
+void Cap();
 #define FCY 60000000
 
 #define STATE_ATTENTE 0
@@ -19,9 +22,14 @@
 #define STATE_ARRET_EN_COURS 13
 #define STATE_RECULE 14
 #define STATE_RECULE_EN_COURS 15
+#define STATE_ESQUIVE_GAUCHE 18
+#define STATE_ESQUIVE_DROITE 19
+#define STATE_AVANCE_RAPIDE 20
 #define PAS_D_OBSTACLE 0
 #define OBSTACLE_A_GAUCHE 1
 #define OBSTACLE_A_DROITE 2
 #define OBSTACLE_EN_FACE 3
+#define OBSTACLE_TRES_A_DROITE 16
+#define OBSTACLE_TRES_A_GAUCHE  17
 
 #endif
