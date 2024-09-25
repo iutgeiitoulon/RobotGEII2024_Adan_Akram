@@ -56,7 +56,6 @@ int main(void) {
     }
 }
 
-
 void Cap() {
     if (robotState.distanceTelemetreExDroite < 30) {
         LED_VERTE_1 = 1;
@@ -194,11 +193,11 @@ unsigned char stateRobot;
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 35) state |= (1 << 4);
-    if (robotState.distanceTelemetreGauche < 35) state |= (1 << 3);
-    if (robotState.distanceTelemetreCentre < 25) state |= (1 << 2);
-    if (robotState.distanceTelemetreDroit < 35) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 35) state |= (1 << 0);
+    if (robotState.distanceTelemetreExGauche < 33) state |= (1 << 4);
+    if (robotState.distanceTelemetreGauche < 33) state |= (1 << 3);
+    if (robotState.distanceTelemetreCentre < 33) state |= (1 << 2);
+    if (robotState.distanceTelemetreDroit < 33) state |= (1 << 1);
+    if (robotState.distanceTelemetreExDroite < 33) state |= (1 << 0);
     return state;
 }
 
@@ -206,174 +205,175 @@ void OperatingSystemLoop(void) {
     unsigned char stateRobot = ConversionBin();
 
     switch (stateRobot) {
-            case 0b00000: // Aucun 
-                stateRobot = STATE_AVANCE;
-                break;
-
-            case 0b00001: // extrême droite
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b00010: // droite
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b00011: // droite et extrême droite
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b00100: // centre
-            case 0b00101: // centre et extrême droite
-            case 0b00110: // centre et droite
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b00111: // droite, centre et extrême droite//
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b01000: // gauche
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b01001: // gauche et extrême droite//
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b01010: // gauche et droite//
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b01011: // gauche, droite et extrême droite//
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b01100: // gauche et centre
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b01101: // gauche, centre et extrême droite//
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b01110: // gauche, centre et droite//
-                stateRobot = STATE_RECULE;
-                break;
-            
-            case 0b10000: // extrême gauche//
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b01111: // gauche, droite, centre, et extrême droite
-                stateRobot = STATE_TOURNE_GAUCHE;
-                break;
-
-            case 0b10001: // extrême gauche et extrême droite//
-                stateRobot = STATE_AVANCE;
-                break;
-
-            case 0b10010: // extrême gauche et droite
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b10011: // extrême gauche, droite et extrême droite
-                stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-                break;
-
-            case 0b10100: // extrême gauche et centre
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b10101: // extrême gauche, centre et extrême droite
-                stateRobot = STATE_RECULE;
-                break;
-
-            case 0b10110: // extrême gauche, centre et droite
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b10111: // extrême gauche, droite, centre, et extrême droite
-                stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-                break;
-
-            case 0b11000: // gauche et extrême gauche//
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-    
-            case 0b11001: // gauche, extrême gauche et extrême droite//
-                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;
-
-            case 0b11010: // gauche, extrême gauche et droite//
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b11011: // gauche, droite, extrême gauche et extrême droite//
-                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;
-
-            case 0b11100: // gauche, centre et extrême gauche
-                stateRobot = STATE_TOURNE_DROITE;
-                break;
-
-            case 0b11101: // gauche, centre, extrême gauche et extrême droite
-                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;
-
-            case 0b11110: // extrême gauche, gauche, centre, et droite
-                stateRobot = STATE_TOURNE_DROITE;;
-                break;
-
-            case 0b11111: // partout
-                stateRobot = STATE_RECULE;
-                break;
-
-        /*case 0b00000:
+        case 0b00000: // Aucun 
             stateRobot = STATE_AVANCE;
             break;
 
-        case 0b00001:
-        case 0b00011:
+        case 0b00001: // extrême droite
             stateRobot = STATE_TOURNE_GAUCHE;
             break;
 
-        case 0b10000:
-        case 0b11000:
-            stateRobot = STATE_TOURNE_DROITE;
-            break;
-
-        case 0b00100:
-            stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-            break;
-
-        case 0b00111:
+        case 0b00010: // droite
             stateRobot = STATE_TOURNE_GAUCHE;
             break;
 
-        case 0b11100:
+        case 0b00011: // droite et extrême droite
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b00100: // centre
+        case 0b00101: // centre et extrême droite
+        case 0b00110: // centre et droite
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b00111: // droite, centre et extrême droite//
+            stateRobot = STATE_RECULE_DROITE;
+            break;
+
+        case 0b01000: // gauche
             stateRobot = STATE_TOURNE_DROITE;
             break;
 
-        case 0b10001:
-            stateRobot = STATE_AVANCE_LENT;
+        case 0b01001: // gauche et extrême droite//
+            stateRobot = STATE_TOURNE_GAUCHE;
             break;
 
-        case 0b11111:
-        case 0b01110:
+        case 0b01010: // gauche et droite//
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b01011: // gauche, droite et extrême droite//
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b01100: // gauche et centre
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b01101: // gauche, centre et extrême droite//
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b01110: // gauche, centre et droite//
             stateRobot = STATE_RECULE;
             break;
 
-        case 0b01111:
-            stateRobot = STATE_TOURNE_GAUCHE;
-            break;
-
-        case 0b11110:
+        case 0b10000: // extrême gauche//
             stateRobot = STATE_TOURNE_DROITE;
             break;
 
-        default:
+        case 0b01111: // gauche, droite, centre, et extrême droite
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b10001: // extrême gauche et extrême droite//
+            stateRobot = STATE_AVANCE;
+            break;
+
+        case 0b10010: // extrême gauche et droite
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b10011: // extrême gauche, droite et extrême droite
+            stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+            break;
+
+        case 0b10100: // extrême gauche et centre
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b10101: // extrême gauche, centre et extrême droite
+            stateRobot = STATE_RECULE;
+            break;
+
+        case 0b10110: // extrême gauche, centre et droite
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b10111: // extrême gauche, droite, centre, et extrême droite
+            stateRobot = STATE_TOURNE_GAUCHE;
+            break;
+
+        case 0b11000: // gauche et extrême gauche//
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b11001: // gauche, extrême gauche et extrême droite//
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b11010: // gauche, extrême gauche et droite//
+            stateRobot = STATE_TOURNE_DROITE;
+            break;
+
+        case 0b11011: // gauche, droite, extrême gauche et extrême droite//
             stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-            break;*/
+            break;
+
+        case 0b11100: // gauche, centre et extrême gauche
+            stateRobot = STATE_RECULE_GAUCHE;
+            break;
+
+        case 0b11101: // gauche, centre, extrême gauche et extrême droite
+            stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+            break;
+
+        case 0b11110: // extrême gauche, gauche, centre, et droite
+            stateRobot = STATE_TOURNE_DROITE;
+            ;
+            break;
+
+        case 0b11111: // partout
+            stateRobot = STATE_RECULE;
+            break;
+
+            /*case 0b00000:
+                stateRobot = STATE_AVANCE;
+                break;
+
+            case 0b00001:
+            case 0b00011:
+                stateRobot = STATE_TOURNE_GAUCHE;
+                break;
+
+            case 0b10000:
+            case 0b11000:
+                stateRobot = STATE_TOURNE_DROITE;
+                break;
+
+            case 0b00100:
+                stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
+                break;
+
+            case 0b00111:
+                stateRobot = STATE_TOURNE_GAUCHE;
+                break;
+
+            case 0b11100:
+                stateRobot = STATE_TOURNE_DROITE;
+                break;
+
+            case 0b10001:
+                stateRobot = STATE_AVANCE_LENT;
+                break;
+
+            case 0b11111:
+            case 0b01110:
+                stateRobot = STATE_RECULE;
+                break;
+
+            case 0b01111:
+                stateRobot = STATE_TOURNE_GAUCHE;
+                break;
+
+            case 0b11110:
+                stateRobot = STATE_TOURNE_DROITE;
+                break;
+
+            default:
+                stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
+                break;*/
     }
 
 
@@ -398,7 +398,7 @@ void OperatingSystemLoop(void) {
             LED_ROUGE_2 = 0;
             LED_VERTE_2 = 0;
             break;
-            
+
 
         case STATE_TOURNE_DROITE:
             PWMSetSpeedConsigne(0, MOTEUR_DROIT);
@@ -433,6 +433,26 @@ void OperatingSystemLoop(void) {
         case STATE_RECULE:
             PWMSetSpeedConsigne(-10, MOTEUR_DROIT);
             PWMSetSpeedConsigne(-10, MOTEUR_GAUCHE);
+            LED_BLANCHE_2 = 0;
+            LED_BLEUE_2 = 0;
+            LED_ORANGE_2 = 0;
+            LED_ROUGE_2 = 0;
+            LED_VERTE_2 = 0;
+            break;
+
+        case STATE_RECULE_GAUCHE:
+            PWMSetSpeedConsigne(-13, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(-7, MOTEUR_GAUCHE);
+            LED_BLANCHE_2 = 0;
+            LED_BLEUE_2 = 0;
+            LED_ORANGE_2 = 0;
+            LED_ROUGE_2 = 0;
+            LED_VERTE_2 = 0;
+            break;
+
+        case STATE_RECULE_DROITE:
+            PWMSetSpeedConsigne(-7, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(-13, MOTEUR_GAUCHE);
             LED_BLANCHE_2 = 0;
             LED_BLEUE_2 = 0;
             LED_ORANGE_2 = 0;
