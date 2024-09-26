@@ -200,16 +200,16 @@ unsigned char nextStateRobot = 0;
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 20) state |= (1 << 4);
-    if (robotState.distanceTelemetreGauche < 25) state |= (1 << 3);
-    if (robotState.distanceTelemetreCentre < 30) state |= (1 << 2);
-    if (robotState.distanceTelemetreDroit < 25) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 20) state |= (1 << 0);
+    if (robotState.distanceTelemetreExGauche < 22) state |= (1 << 4);
+    if (robotState.distanceTelemetreGauche < 27) state |= (1 << 3);
+    if (robotState.distanceTelemetreCentre < 32) state |= (1 << 2);
+    if (robotState.distanceTelemetreDroit < 27) state |= (1 << 1);
+    if (robotState.distanceTelemetreExDroite < 22) state |= (1 << 0);
     return state;
 }
 
 void OperatingSystemLoop(void) {
-    if (tstop <= 57000 && tstart) {
+    if (tstop <= 58000 && tstart) {
         unsigned char stateRobot = ConversionBin();
 
         switch (stateRobot) {
@@ -342,8 +342,8 @@ void OperatingSystemLoop(void) {
         switch (stateRobot) {
 
             case STATE_AVANCE:
-                PWMSetSpeedConsigne(25, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(25, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(26, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(26, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 1;
                 LED_BLEUE_2 = 1;
                 LED_ORANGE_2 = 1;
@@ -352,7 +352,7 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_GAUCHE:
-                PWMSetSpeedConsigne(23, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(25, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
@@ -364,7 +364,7 @@ void OperatingSystemLoop(void) {
 
             case STATE_TOURNE_DROITE:
                 PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(23, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(25, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
@@ -379,7 +379,7 @@ void OperatingSystemLoop(void) {
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
                 LED_ROUGE_2 = 0;
-                LED_VERTE_2 = 0;
+                LED_VERTE_2 = 0; 
                 break;
 
             case STATE_TOURNE_SUR_PLACE_DROITE:
@@ -393,8 +393,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_RECULE:
-                PWMSetSpeedConsigne(-13, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-13, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(-18, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(-18, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
