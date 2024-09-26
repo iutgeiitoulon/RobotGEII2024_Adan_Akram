@@ -172,11 +172,11 @@ void SetNextRobotStateInAutomaticMode() {
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 23) state |= (1 << 4);
+    if (robotState.distanceTelemetreExGauche < 20) state |= (1 << 4);
     if (robotState.distanceTelemetreGauche < 28) state |= (1 << 3);
     if (robotState.distanceTelemetreCentre < 35) state |= (1 << 2);
     if (robotState.distanceTelemetreDroit < 28) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 23) state |= (1 << 0);
+    if (robotState.distanceTelemetreExDroite < 20) state |= (1 << 0);
     return state;
 }
 
@@ -219,9 +219,9 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
-            /*case 0b01011: // gauche, droite et extrême droite//
+            case 0b01011: // gauche, droite et extrême droite//
                 stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-                break;*/
+                break
 
             case 0b01100: // gauche et centre//
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
@@ -231,9 +231,9 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
-            /*case 0b01110: // gauche, centre et droite//
+            case 0b01110: // gauche, centre et droite//
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;*/
+                break;
 
             case 0b10000: // extrême gauche//
                 stateRobot = STATE_TOURNE_DROITE;
@@ -428,20 +428,20 @@ void VitesseCentre() {
     }
 }
 
-void VitesseExtremeGauche(void) {
-    float V_BASSE = 20;
-    float V_HAUTE = 40;
+void VitesseExtremeGauche() {
+    float V_BASSE = 18;
+    float V_HAUTE = 38;
 
     if (robotState.distanceTelemetreExGauche < V_BASSE) {
         Vitesse = 7;
     } else if (robotState.distanceTelemetreExGauche < V_HAUTE) {
-        Vitesse = 7 + (robotState.distanceTelemetreExGauche - 20) * (10 / 20);
+        Vitesse = 7 + (robotState.distanceTelemetreExGauche - 18) * (10 / 20);
     } else {
         Vitesse = 26;
     }
 }
 
-void VitesseDroit(void) {
+void VitesseDroit() {
     float V_BASSE = 20;
     float V_HAUTE = 50;
 
@@ -454,14 +454,14 @@ void VitesseDroit(void) {
     }
 }
 
-void VitesseExtremeDroit(void) {
-    float V_BASSE = 20;
-    float V_HAUTE = 40;
+void VitesseExtremeDroit() {
+    float V_BASSE = 18;
+    float V_HAUTE = 38;
 
     if (robotState.distanceTelemetreExDroite < V_BASSE) {
         Vitesse = 7;
     } else if (robotState.distanceTelemetreExDroite < V_HAUTE) {
-        Vitesse = 7 + (robotState.distanceTelemetreExDroite - V_BASSE) * (10 / 20);
+        Vitesse = 7 + (robotState.distanceTelemetreExDroite - 18) * (10 / 20);
     } else {
         Vitesse = 26;
     }
