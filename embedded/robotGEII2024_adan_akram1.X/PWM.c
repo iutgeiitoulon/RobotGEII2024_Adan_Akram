@@ -25,7 +25,7 @@ void InitPWM(void) {
     PTCONbits.PTEN = 1;
 }
 
-double talon = 56;
+double talon = 30;
 
 /*void PWMSetSpeed(float vitesseEnPourcents, int MOTEUR) {
     if (MOTEUR == MOTEUR_GAUCHE) {
@@ -37,7 +37,7 @@ double talon = 56;
     }
 }*/
 
-float acceleration = 27 ;
+float acceleration = 8 ;
 
 void PWMUpdateSpeed() {
     // Cette fonction est appelee sur timer et permet de suivre des rampes d acceleration

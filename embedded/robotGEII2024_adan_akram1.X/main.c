@@ -19,6 +19,7 @@
 
 unsigned char stateRobot;
 unsigned int tstart = 0;
+float Vitesse;
 
 int main(void) {
     /***********************************************************************************************/
@@ -60,6 +61,23 @@ int main(void) {
             tstop = 0;
         }
 
+        if (robotState.distanceTelemetreCentre < 33) {
+            Vitesse = 15;
+        } else {
+            Vitesse = 23;
+            LED_BLANCHE_2 = 1;
+            LED_BLEUE_2 = 1;
+            LED_ORANGE_2 = 1;
+            LED_ROUGE_2 = 1;
+            LED_VERTE_2 = 1;
+        }
+
+        if (robotState.distanceTelemetreGauche < 25 && robotState.distanceTelemetreDroit < 25) {
+            Vitesse = 15;
+        } else {
+            Vitesse = 23;
+        }
+
     }
 }
 
@@ -94,7 +112,7 @@ void Cap() {
 
 unsigned char nextStateRobot = 0;
 
-/*void SetNextRobotStateInAutomaticMode() {
+void SetNextRobotStateInAutomaticMode() {
     unsigned char positionObstacle = PAS_D_OBSTACLE;
     //éDtermination de la position des obstacles en fonction des ééètlmtres
     if (robotState.distanceTelemetreDroit < 30 &&
@@ -112,7 +130,7 @@ unsigned char nextStateRobot = 0;
             robotState.distanceTelemetreGauche > 30) //pas d?obstacle
         positionObstacle = PAS_D_OBSTACLE;
 
-    /*if (robotState.distanceTelemetreExDroite < 20 &&
+    if (robotState.distanceTelemetreExDroite < 20 &&
             robotState.distanceTelemetreDroit < 25 &&
             robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche > 30 &&
             robotState.distanceTelemetreExGauche > 30)
@@ -137,74 +155,15 @@ unsigned char nextStateRobot = 0;
     //Si l?on n?est pas dans la transition de lé?tape en cours
     if (nextStateRobot != stateRobot - 1)
         stateRobot = nextStateRobot;
-}*/
-
- unsigned char stateRobot;
-
-/*void OperatingSystemLoop(void) {
-    switch (stateRobot) {
-        case STATE_ATTENTE:
-            timestamp = 0;
-            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-            stateRobot = STATE_ATTENTE_EN_COURS;
-        case STATE_ATTENTE_EN_COURS:
-            if (timestamp > 1000)
-                stateRobot = STATE_AVANCE;
-            break;
-        case STATE_AVANCE:
-            PWMSetSpeedConsigne(30, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-            stateRobot = STATE_AVANCE_EN_COURS;
-            break;
-        case STATE_AVANCE_EN_COURS:
-            SetNextRobotStateInAutomaticMode();
-            break;
-        case STATE_TOURNE_GAUCHE:
-            PWMSetSpeedConsigne(30, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
-            stateRobot = STATE_TOURNE_GAUCHE_EN_COURS;
-            break;
-        case STATE_TOURNE_GAUCHE_EN_COURS:
-            SetNextRobotStateInAutomaticMode();
-            break;
-        case STATE_TOURNE_DROITE:
-            PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(30, MOTEUR_GAUCHE);
-            stateRobot = STATE_TOURNE_DROITE_EN_COURS;
-            break;
-        case STATE_TOURNE_DROITE_EN_COURS:
-            SetNextRobotStateInAutomaticMode();
-            break;
-        case STATE_TOURNE_SUR_PLACE_GAUCHE:
-            PWMSetSpeedConsigne(15, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(-15, MOTEUR_GAUCHE);
-            stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS;
-            break;
-        case STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS:
-            SetNextRobotStateInAutomaticMode();
-            break;
-        case STATE_TOURNE_SUR_PLACE_DROITE:
-            PWMSetSpeedConsigne(-15, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
-            stateRobot = STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS;
-            break;
-        case STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS:
-            SetNextRobotStateInAutomaticMode();
-            break;
-        default:
-            stateRobot = STATE_ATTENTE;
-            break;
-    }
-}*/
+}
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 22) state |= (1 << 4);
-    if (robotState.distanceTelemetreGauche < 27) state |= (1 << 3);
-    if (robotState.distanceTelemetreCentre < 32) state |= (1 << 2);
-    if (robotState.distanceTelemetreDroit < 27) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 22) state |= (1 << 0);
+    if (robotState.distanceTelemetreExGauche < 26) state |= (1 << 4);
+    if (robotState.distanceTelemetreGauche < 33) state |= (1 << 3);
+    if (robotState.distanceTelemetreCentre < 40) state |= (1 << 2);
+    if (robotState.distanceTelemetreDroit < 33) state |= (1 << 1);
+    if (robotState.distanceTelemetreExDroite < 26) state |= (1 << 0);
     return state;
 }
 
@@ -239,7 +198,7 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
                 break;
 
-            case 0b01000: // gauche
+            case 0b01000: // gauche////
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
@@ -342,17 +301,12 @@ void OperatingSystemLoop(void) {
         switch (stateRobot) {
 
             case STATE_AVANCE:
-                PWMSetSpeedConsigne(26, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(26, MOTEUR_GAUCHE);
-                LED_BLANCHE_2 = 1;
-                LED_BLEUE_2 = 1;
-                LED_ORANGE_2 = 1;
-                LED_ROUGE_2 = 1;
-                LED_VERTE_2 = 1;
+                PWMSetSpeedConsigne(Vitesse, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(Vitesse, MOTEUR_GAUCHE);
                 break;
 
             case STATE_TOURNE_GAUCHE:
-                PWMSetSpeedConsigne(25, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(23, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
@@ -364,7 +318,7 @@ void OperatingSystemLoop(void) {
 
             case STATE_TOURNE_DROITE:
                 PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(25, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(23, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
@@ -373,18 +327,18 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_SUR_PLACE_GAUCHE:
-                PWMSetSpeedConsigne(18, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-15, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(11, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(-11, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
                 LED_ROUGE_2 = 0;
-                LED_VERTE_2 = 0; 
+                LED_VERTE_2 = 0;
                 break;
 
             case STATE_TOURNE_SUR_PLACE_DROITE:
-                PWMSetSpeedConsigne(-15, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(18, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(-11, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(11, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
@@ -437,7 +391,7 @@ void OperatingSystemLoop(void) {
         }
     } else {
         tstart = 0;
-        
+
         PWMSetSpeedConsigne(0, MOTEUR_DROIT);
         PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
     }
