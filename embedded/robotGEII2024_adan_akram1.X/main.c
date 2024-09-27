@@ -21,11 +21,11 @@ unsigned char stateRobot;
 unsigned int tstart = 0;
 float Vitesse;
 
-void VitesseGauche();
-void VitesseDroite();
-void VitesseCentre();
-void VitesseExtremeDroit();
-void VitesseExtremeGauche();
+//void VitesseGauche();
+//void VitesseDroite();
+//void VitesseCentre();
+//void VitesseExtremeDroit();
+//void VitesseExtremeGauche();
 
 int main(void) {
     /***********************************************************************************************/
@@ -67,13 +67,13 @@ int main(void) {
             tstop = 0;
         }
 
-        VitesseCentre();
-        VitesseDroit();
-        VitesseExtremeDroit();
-        VitesseGauche();
-        VitesseExtremeGauche();
+        //VitesseCentre();
+        //VitesseDroit();
+        //VitesseExtremeDroit();
+        //VitesseGauche();
+        //VitesseExtremeGauche();
 
-        if (Vitesse > 24) {
+        if (Vitesse > 22) {
             LED_BLANCHE_2 = 1;
             LED_BLEUE_2 = 1;
             LED_ORANGE_2 = 1;
@@ -81,16 +81,16 @@ int main(void) {
             LED_VERTE_2 = 1;
         }
 
-        /*if (robotState.distanceTelemetreCentre < 60 && robotState.distanceTelemetreGauche < 60 && robotState.distanceTelemetreDroit < 60) {
+        if (robotState.distanceTelemetreCentre < 47 && robotState.distanceTelemetreGauche < 47 && robotState.distanceTelemetreDroit < 47) {
             Vitesse = 15;
         } else {
-            Vitesse = 25;
+            Vitesse = 23;
             LED_BLANCHE_2 = 1;
             LED_BLEUE_2 = 1;
             LED_ORANGE_2 = 1;
             LED_ROUGE_2 = 1;
             LED_VERTE_2 = 1;
-        }*/
+        }
     }
 }
 
@@ -172,16 +172,16 @@ void SetNextRobotStateInAutomaticMode() {
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 20) state |= (1 << 4);
-    if (robotState.distanceTelemetreGauche < 28) state |= (1 << 3);
-    if (robotState.distanceTelemetreCentre < 35) state |= (1 << 2);
-    if (robotState.distanceTelemetreDroit < 28) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 20) state |= (1 << 0);
+    if (robotState.distanceTelemetreExGauche < 22) state |= (1 << 4);
+    if (robotState.distanceTelemetreGauche < 26) state |= (1 << 3);
+    if (robotState.distanceTelemetreCentre < 33) state |= (1 << 2);
+    if (robotState.distanceTelemetreDroit < 26) state |= (1 << 1);
+    if (robotState.distanceTelemetreExDroite < 22) state |= (1 << 0);
     return state;
 }
 
 void OperatingSystemLoop(void) {
-    if (tstop <= 58000 && tstart) {
+    if (tstop <= 59000 && tstart) {
         unsigned char stateRobot = ConversionBin();
 
         switch (stateRobot) {
@@ -211,9 +211,9 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_DROITE;
                 break;
 
-            /*case 0b01001: // gauche et extrême droite//
+            case 0b01001: // gauche et extrême droite//
                 stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-                break;*/
+                break;
 
             case 0b01010: // gauche et droite///
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
@@ -221,7 +221,7 @@ void OperatingSystemLoop(void) {
 
             case 0b01011: // gauche, droite et extrême droite//
                 stateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
-                break
+                break;
 
             case 0b01100: // gauche et centre//
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
@@ -259,7 +259,7 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
-            /*case 0b10101: // extrême gauche, centre et extrême droite////
+            case 0b10101: // extrême gauche, centre et extrême droite////
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
@@ -269,13 +269,13 @@ void OperatingSystemLoop(void) {
 
             case 0b10111: // extrême gauche, droite, centre, et extrême droite
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;*/
+                break;
 
             case 0b11000: // gauche et extrême gauche//
                 stateRobot = STATE_TOURNE_DROITE;
                 break;
 
-            /*case 0b11001: // gauche, extrême gauche et extrême droite//
+            case 0b11001: // gauche, extrême gauche et extrême droite//
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
@@ -293,7 +293,7 @@ void OperatingSystemLoop(void) {
 
             case 0b11101: // gauche, centre, extrême gauche et extrême droite
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
-                break;*/
+                break;
 
             case 0b11110: // extrême gauche, gauche, centre, et droite
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
@@ -310,17 +310,17 @@ void OperatingSystemLoop(void) {
         switch (stateRobot) {
 
             case STATE_AVANCE:
-                VitesseDroit();
-                VitesseExtremeDroit();
-                VitesseGauche();
-                VitesseExtremeGauche();
+                //VitesseDroit();
+                //VitesseExtremeDroit();
+                //VitesseGauche();
+                //VitesseExtremeGauche();
                 PWMSetSpeedConsigne(Vitesse, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(Vitesse, MOTEUR_GAUCHE);
                 break;
 
             case STATE_TOURNE_GAUCHE:
-                VitesseDroit();
-                PWMSetSpeedConsigne(15, MOTEUR_DROIT);
+                //VitesseDroit();
+                PWMSetSpeedConsigne(14, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
@@ -331,9 +331,9 @@ void OperatingSystemLoop(void) {
 
 
             case STATE_TOURNE_DROITE:
-                VitesseGauche();
+                //VitesseGauche();
                 PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(14, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
@@ -342,8 +342,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_SUR_PLACE_GAUCHE:
-                VitesseDroit();
-                VitesseGauche();
+                //VitesseDroit();
+                //VitesseGauche();
                 PWMSetSpeedConsigne(12, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(-12, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -354,8 +354,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_SUR_PLACE_DROITE:
-                VitesseDroit();
-                VitesseGauche();
+                //VitesseDroit();
+                //VitesseGauche();
                 PWMSetSpeedConsigne(-12, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(12, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -366,8 +366,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_RECULE:
-                PWMSetSpeedConsigne(-16, MOTEUR_DROIT);
-                PWMSetSpeedConsigne(-16, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(-17, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(-17, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
                 LED_ORANGE_2 = 0;
@@ -376,7 +376,7 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_RECULE_GAUCHE:
-                PWMSetSpeedConsigne(-13, MOTEUR_DROIT);
+                PWMSetSpeedConsigne(-12, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(-7, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
                 LED_BLEUE_2 = 0;
@@ -415,7 +415,7 @@ void OperatingSystemLoop(void) {
     }
 }
 
-void VitesseCentre() {
+/*void VitesseCentre() {
     float V_BASSE = 30;
     float V_HAUTE = 60;
 
@@ -478,4 +478,4 @@ void VitesseGauche() {
     } else {
         Vitesse = 26;
     }
-}
+}*/
