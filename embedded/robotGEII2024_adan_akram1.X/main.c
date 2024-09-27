@@ -21,11 +21,11 @@ unsigned char stateRobot;
 unsigned int tstart = 0;
 float Vitesse;
 
-//void VitesseGauche();
-//void VitesseDroite();
-//void VitesseCentre();
-//void VitesseExtremeDroit();
-//void VitesseExtremeGauche();
+void VitesseGauche();
+void VitesseDroite();
+void VitesseCentre();
+void VitesseExtremeDroit();
+void VitesseExtremeGauche();
 
 int main(void) {
     /***********************************************************************************************/
@@ -67,13 +67,13 @@ int main(void) {
             tstop = 0;
         }
 
-        //VitesseCentre();
-        //VitesseDroit();
-        //VitesseExtremeDroit();
-        //VitesseGauche();
-        //VitesseExtremeGauche();
+        VitesseCentre();
+        VitesseDroit();
+        VitesseExtremeDroit();
+        VitesseGauche();
+        VitesseExtremeGauche();
 
-        if (Vitesse > 22) {
+        if (Vitesse > 21 ) {
             LED_BLANCHE_2 = 1;
             LED_BLEUE_2 = 1;
             LED_ORANGE_2 = 1;
@@ -82,9 +82,9 @@ int main(void) {
         }
 
         if (robotState.distanceTelemetreCentre < 47 && robotState.distanceTelemetreGauche < 47 && robotState.distanceTelemetreDroit < 47) {
-            Vitesse = 15;
+            Vitesse = 14;
         } else {
-            Vitesse = 23;
+            Vitesse = 22;
             LED_BLANCHE_2 = 1;
             LED_BLEUE_2 = 1;
             LED_ORANGE_2 = 1;
@@ -172,11 +172,11 @@ void SetNextRobotStateInAutomaticMode() {
 
 unsigned char ConversionBin() {
     unsigned char state = 0;
-    if (robotState.distanceTelemetreExGauche < 22) state |= (1 << 4);
-    if (robotState.distanceTelemetreGauche < 26) state |= (1 << 3);
-    if (robotState.distanceTelemetreCentre < 33) state |= (1 << 2);
-    if (robotState.distanceTelemetreDroit < 26) state |= (1 << 1);
-    if (robotState.distanceTelemetreExDroite < 22) state |= (1 << 0);
+    if (robotState.distanceTelemetreExGauche < 23) state |= (1 << 4);
+    if (robotState.distanceTelemetreGauche < 28) state |= (1 << 3);
+    if (robotState.distanceTelemetreCentre < 37) state |= (1 << 2);
+    if (robotState.distanceTelemetreDroit < 28) state |= (1 << 1);
+    if (robotState.distanceTelemetreExDroite < 23) state |= (1 << 0);
     return state;
 }
 
@@ -255,7 +255,7 @@ void OperatingSystemLoop(void) {
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
-            case 0b10100: // extrême gauche et centre//
+            case 0b10100: // extrême gauche et centre// 
                 stateRobot = STATE_TOURNE_SUR_PLACE_DROITE;
                 break;
 
@@ -310,16 +310,16 @@ void OperatingSystemLoop(void) {
         switch (stateRobot) {
 
             case STATE_AVANCE:
-                //VitesseDroit();
-                //VitesseExtremeDroit();
-                //VitesseGauche();
-                //VitesseExtremeGauche();
+                VitesseDroit();
+                VitesseExtremeDroit();
+                VitesseGauche();
+                VitesseExtremeGauche();
                 PWMSetSpeedConsigne(Vitesse, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(Vitesse, MOTEUR_GAUCHE);
                 break;
 
             case STATE_TOURNE_GAUCHE:
-                //VitesseDroit();
+                VitesseDroit();
                 PWMSetSpeedConsigne(14, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -331,7 +331,7 @@ void OperatingSystemLoop(void) {
 
 
             case STATE_TOURNE_DROITE:
-                //VitesseGauche();
+                VitesseGauche();
                 PWMSetSpeedConsigne(0, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(14, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -342,8 +342,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_SUR_PLACE_GAUCHE:
-                //VitesseDroit();
-                //VitesseGauche();
+                VitesseDroit();
+                VitesseGauche();
                 PWMSetSpeedConsigne(12, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(-12, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -354,8 +354,8 @@ void OperatingSystemLoop(void) {
                 break;
 
             case STATE_TOURNE_SUR_PLACE_DROITE:
-                //VitesseDroit();
-                //VitesseGauche();
+                VitesseDroit();
+                VitesseGauche();
                 PWMSetSpeedConsigne(-12, MOTEUR_DROIT);
                 PWMSetSpeedConsigne(12, MOTEUR_GAUCHE);
                 LED_BLANCHE_2 = 0;
@@ -415,29 +415,29 @@ void OperatingSystemLoop(void) {
     }
 }
 
-/*void VitesseCentre() {
+void VitesseCentre() {
     float V_BASSE = 30;
-    float V_HAUTE = 60;
+    float V_HAUTE = 50;
 
     if (robotState.distanceTelemetreCentre < V_BASSE) {
-        Vitesse = 8;
+        Vitesse = 9;
     } else if (robotState.distanceTelemetreCentre < V_HAUTE) {
-        Vitesse = 16 + (robotState.distanceTelemetreCentre - 30) * (10 / 30);
+        Vitesse = 15 + (robotState.distanceTelemetreCentre - 30) * (10 / 20);
     } else {
-        Vitesse = 26;
+        Vitesse = 24;
     }
 }
 
 void VitesseExtremeGauche() {
-    float V_BASSE = 18;
-    float V_HAUTE = 38;
+    float V_BASSE = 20;
+    float V_HAUTE = 35;
 
     if (robotState.distanceTelemetreExGauche < V_BASSE) {
-        Vitesse = 7;
+        Vitesse = 9;
     } else if (robotState.distanceTelemetreExGauche < V_HAUTE) {
-        Vitesse = 7 + (robotState.distanceTelemetreExGauche - 18) * (10 / 20);
+        Vitesse = 9 + (robotState.distanceTelemetreExGauche - 18) * (10 / 15);
     } else {
-        Vitesse = 26;
+        Vitesse = 24;
     }
 }
 
@@ -446,24 +446,24 @@ void VitesseDroit() {
     float V_HAUTE = 50;
 
     if (robotState.distanceTelemetreDroit < V_BASSE) {
-        Vitesse = 6;
+        Vitesse = 8;
     } else if (robotState.distanceTelemetreDroit < V_HAUTE) {
         Vitesse = 9 + (robotState.distanceTelemetreDroit - 20) * (15 / 30);
     } else {
-        Vitesse = 26;
+        Vitesse = 24;
     }
 }
 
 void VitesseExtremeDroit() {
-    float V_BASSE = 18;
-    float V_HAUTE = 38;
+    float V_BASSE = 20;
+    float V_HAUTE = 35;
 
     if (robotState.distanceTelemetreExDroite < V_BASSE) {
-        Vitesse = 7;
+        Vitesse = 9;
     } else if (robotState.distanceTelemetreExDroite < V_HAUTE) {
-        Vitesse = 7 + (robotState.distanceTelemetreExDroite - 18) * (10 / 20);
+        Vitesse = 9 + (robotState.distanceTelemetreExDroite - 20) * (10 / 15);
     } else {
-        Vitesse = 26;
+        Vitesse = 24;
     }
 }
 
@@ -472,10 +472,10 @@ void VitesseGauche() {
     float V_HAUTE = 50;
 
     if (robotState.distanceTelemetreGauche < V_BASSE) {
-        Vitesse = 6;
+        Vitesse = 8;
     } else if (robotState.distanceTelemetreGauche < V_HAUTE) {
         Vitesse = 9 + (robotState.distanceTelemetreGauche - 20) * (15 / 30);
     } else {
-        Vitesse = 26;
+        Vitesse = 24;
     }
-}*/
+}
