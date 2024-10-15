@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO.Ports;
 using ExtendedSerialPort_NS;
 namespace RobotInterface
 {
@@ -17,9 +18,14 @@ namespace RobotInterface
     /// </summary>
     public partial class MainWindow : Window
     {
+        ExtendedSerialPort serialPort1;
+
+
         public MainWindow()
         {
             InitializeComponent();
+            serialPort1 = new ExtendedSerialPort("COM6", 115200, Parity.None, 8, StopBits.One);
+            serialPort1.Open();
         }
 
         private void buttonSend_Click(object sender, RoutedEventArgs e)
@@ -44,7 +50,7 @@ namespace RobotInterface
 
         private void SendMessage()
         {
-            textboxReception.Text += "Reçu :"+textboxEmission.Text + " \n";
+            textboxReception.Text += "Reçu :" + textboxEmission.Text + " \n";
             textboxEmission.Text = "";
         }
 
@@ -52,7 +58,6 @@ namespace RobotInterface
         {
             textboxReception.Clear();
         }
-
 
 
     }
