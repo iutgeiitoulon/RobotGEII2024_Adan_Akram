@@ -16,6 +16,7 @@
 #include "ToolBox.h"
 #include "ADC.h"
 #include "main.h"
+#include "UART.h"
 
 unsigned char stateRobot;
 unsigned int tstart = 0;
@@ -36,7 +37,7 @@ int main(void) {
     //Configuration des input et output (IO)
     /***********************************************************************************************/
     InitIO();
-
+    InitUART();
     InitTimer1();
     InitTimer4();
     InitTimer23();
@@ -73,7 +74,7 @@ int main(void) {
         VitesseGauche();
         VitesseExtremeGauche();
 
-        if (Vitesse > 21 ) {
+        if (Vitesse > 21) {
             LED_BLANCHE_2 = 1;
             LED_BLEUE_2 = 1;
             LED_ORANGE_2 = 1;
@@ -91,6 +92,10 @@ int main(void) {
             LED_ROUGE_2 = 1;
             LED_VERTE_2 = 1;
         }
+
+        SendMessageDirect((unsigned char*) "Bonjour", 7);
+        __delay32(40000000);
+
     }
 }
 

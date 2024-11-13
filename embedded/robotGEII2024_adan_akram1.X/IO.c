@@ -21,14 +21,18 @@ void InitIO() {
     _TRISJ5 = 0; // LED Bleue1
     _TRISJ11 = 0; // LED Rouge1
     _TRISH10 = 0; // LED Verte1
-    
+
     _TRISK15 = 0; // LED Orange2
     _TRISA0 = 0; //LED Blanche2
     _TRISA9 = 0; // LED Bleue2
     _TRISA10 = 0; // LED Rouge2
     _TRISH3 = 0; // LED Verte2
-    
 
+
+
+    _U1RXR = 78; //Remappe la RP... sur l?éentre Rx1
+    _RP79R = 0b00001; //Remappe la sortie Tx1 vers RP... 
+    
     //****** Moteurs ************************
 
     // Configuration des entrées

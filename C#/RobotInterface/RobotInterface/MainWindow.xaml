@@ -21,12 +21,12 @@
         <GroupBox Header="Reception" Grid.Column="1" BorderBrush="#FFFF7601">
             <TextBox x:Name="textboxReception" Background="AliceBlue" ></TextBox>
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" Width="200.576666666667" Margin="0,0,8,0">
             <Button x:Name="buttonSend" Content="Envoyer" Margin="11 
-                    " Click="ButtonSend_Click" KeyUp="TextBoxEmission_KeyUp" />
+                    " Click="ButtonSend_Click" KeyUp="TextBoxEmission_KeyUp" Width="45" />
+            <Button x:Name="buttonTest" Content="Test" Margin="11" Click="ButtonTest_Click" Width="51" RenderTransformOrigin="0.508,0.571" />
             <Button x:Name="buttonClear" Content="Effacer" Margin="11 
-                    " Click="buttonClear_Click" />
+                    " Click="buttonClear_Click" Width="44" />
         </StackPanel>
-
     </Grid>
 </Window>
