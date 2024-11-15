@@ -67,6 +67,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     //        toggle = 0;
     //    }
 }
+//Interruption en mode loopback
 
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b01; //00 = 1:1 prescaler value

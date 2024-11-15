@@ -48,6 +48,7 @@ namespace RobotInterface
             
             //this.robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
 
+
         }
 
 

@@ -17,6 +17,7 @@
 #include "ADC.h"
 #include "main.h"
 #include "UART.h"
+#include "CB_TX1.h"
 
 unsigned char stateRobot;
 unsigned int tstart = 0;
@@ -37,18 +38,17 @@ int main(void) {
     //Configuration des input et output (IO)
     /***********************************************************************************************/
     InitIO();
-    InitUART();
     InitTimer1();
     InitTimer4();
     InitTimer23();
     InitPWM();
     InitADC1();
-
+    InitUART();
     SetFreqTimer4(1000);
 
     /*******************   Boucle Principale   ******************************************************/
     while (1) {
-        if (ADCIsConversionFinished() == 1) {
+    /*    if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();
             float volts = ((float) result [0])* 3.3 / 4096;
@@ -91,11 +91,10 @@ int main(void) {
             LED_ORANGE_2 = 1;
             LED_ROUGE_2 = 1;
             LED_VERTE_2 = 1;
-        }
+        }*/
 
-        SendMessageDirect((unsigned char*) "Bonjour", 7);
-        __delay32(40000000);
-
+    SendMessage((unsigned char* message, lenght);
+     __delay32(40000000);
     }
 }
 
