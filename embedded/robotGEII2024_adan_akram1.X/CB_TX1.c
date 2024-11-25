@@ -2,77 +2,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "CB_TX1.h"
-
 #define CBTX1_BUFFER_SIZE 128
 
-// Déclaration des variables pour le buffer circulaire
-int cbTx1Head = 0;
-int cbTx1Tail = 0;
+int cbTx1Head;
+int cbTx1Tail;
 unsigned char cbTx1Buffer[CBTX1_BUFFER_SIZE];
-unsigned char isTransmitting = 0;  // Flag pour vérifier si une transmission est en cours
+unsigned char isTransmitting = 0;
 
-// Fonction pour envoyer un message
 void SendMessage(unsigned char* message, int length) {
     unsigned char i = 0;
     if (CB_TX1_GetRemainingSize() > length) {
-        // On peut écrire le message
-        for (i = 0; i < length; i++) {
+        //On peut écrire le message
+        for (i = 0; i < length; i++)
             CB_TX1_Add(message[i]);
-        }
-        // Si une transmission n'est pas déjà en cours, commencer la transmission
-        if (!CB_TX1_IsTranmitting()) {
+        if (!CB_TX1_IsTranmitting())
             SendOne();
-        }
     }
 }
 
-// Ajouter un caractère dans le buffer circulaire
 void CB_TX1_Add(unsigned char value) {
-    int next = (cbTx1Tail + 1) % CBTX1_BUFFER_SIZE;  // Calcul de l'indice suivant de manière circulaire
-    if (next != cbTx1Head) {  // Vérifier si le buffer n'est pas plein
-        cbTx1Buffer[cbTx1Tail] = value;  // Ajouter l'élément dans le buffer
-        cbTx1Tail = next;  // Mettre à jour la position du tail
+    int nextHead = (cbTx1Head + 1) % CBTX1_BUFFER_SIZE;
+    if (nextHead != cbTx1Tail) {
+        cbTx1Buffer[cbTx1Head] = value;
+        cbTx1Head = nextHead;
     }
 }
 
-// Récupérer un caractère depuis le buffer circulaire
 unsigned char CB_TX1_Get(void) {
-    unsigned char value = cbTx1Buffer[cbTx1Head];  // Lire la valeur à la position head
-    cbTx1Head = (cbTx1Head + 1) % CBTX1_BUFFER_SIZE;  // Mettre à jour head de manière circulaire
-    return value;
-}
-
-// Routine d'interruption UART pour la transmission
-void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
-    IFS0bits.U1TXIF = 0;  // Effacer le flag d'interruption TX
+    unsigned char value;
     if (cbTx1Tail != cbTx1Head) {
-        // Il y a encore des caractères à transmettre
-        SendOne();
-    } else {
-        isTransmitting = 0;  // Aucune transmission en cours
+        value = cbTx1Buffer[cbTx1Tail];
+        cbTx1Tail = (cbTx1Tail + 1) % CBTX1_BUFFER_SIZE;
+        return value;
     }
+    return 0;
 }
 
-// Fonction pour envoyer un seul caractère via UART
-void SendOne(void) {
-    isTransmitting = 1;  // Indiquer qu'une transmission est en cours
-    unsigned char value = CB_TX1_Get();  // Récupérer un caractère depuis le buffer circulaire
-    U1TXREG = value;  // Transmettre le caractère via UART
+void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void) {
+    IFS0bits.U1TXIF = 0; // clear TX interrupt flag
+    if (cbTx1Tail != cbTx1Head) {
+        SendOne();
+    } else
+        isTransmitting = 0;
 }
 
-// Vérifie si une transmission est en cours
+void SendOne() {
+    isTransmitting = 1;
+    unsigned char value = CB_TX1_Get();
+    U1TXREG = value; // Transmit one character
+}
+
 unsigned char CB_TX1_IsTranmitting(void) {
     return isTransmitting;
 }
 
-// Récupère la taille des données stockées dans le buffer circulaire
 int CB_TX1_GetDataSize(void) {
-    int dataSize = (cbTx1Tail - cbTx1Head + CBTX1_BUFFER_SIZE) % CBTX1_BUFFER_SIZE;
+    //return size of data stored in circular buffer
+    int dataSize;
+    dataSize = (cbTx1Head - cbTx1Tail + CBTX1_BUFFER_SIZE) % CBTX1_BUFFER_SIZE;
     return dataSize;
 }
 
-// Récupère la taille de l'espace libre restant dans le buffer circulaire
 int CB_TX1_GetRemainingSize(void) {
-    int remainingSize = (CBTX1_BUFFER_SIZE - CB_TX1_GetDataSize() - 1) % CBTX1_BUFFER_SIZE;
+    //return size of remaining size in circular buffer
+    int remainingSize;
+    remainingSize = (CBTX1_BUFFER_SIZE - 1 - CB_TX1_GetDataSize());
     return remainingSize;
 }

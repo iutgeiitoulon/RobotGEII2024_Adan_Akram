@@ -44,11 +44,8 @@ namespace RobotInterface
             for (int i = 0; i < e.Data.Length; i++)
             {
                 robot.byteListReceived.Enqueue(e.Data[i]);
-            }
-            
+            }     
             //this.robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-
-
         }
 
 
@@ -70,6 +67,7 @@ namespace RobotInterface
                 SendMessage();
             }
         }
+
 
         private void SendMessage()
         {
