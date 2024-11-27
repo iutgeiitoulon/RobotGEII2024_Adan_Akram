@@ -1,7 +1,9 @@
 #include <xc.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "CB_RX1.h"
 #include "CB_TX1.h"
+
 #define CBTX1_BUFFER_SIZE 128
 
 int cbTx1Head;
@@ -12,7 +14,6 @@ unsigned char isTransmitting = 0;
 void SendMessage(unsigned char* message, int length) {
     unsigned char i = 0;
     if (CB_TX1_GetRemainingSize() > length) {
-        //On peut écrire le message
         for (i = 0; i < length; i++)
             CB_TX1_Add(message[i]);
         if (!CB_TX1_IsTranmitting())
@@ -21,7 +22,10 @@ void SendMessage(unsigned char* message, int length) {
 }
 
 void CB_TX1_Add(unsigned char value) {
-    int nextHead = (cbTx1Head + 1) % CBTX1_BUFFER_SIZE;
+    int nextHead = cbTx1Head + 1;
+    if (nextHead >= CBTX1_BUFFER_SIZE) {
+        nextHead = 0;
+    }
     if (nextHead != cbTx1Tail) {
         cbTx1Buffer[cbTx1Head] = value;
         cbTx1Head = nextHead;
@@ -32,7 +36,10 @@ unsigned char CB_TX1_Get(void) {
     unsigned char value;
     if (cbTx1Tail != cbTx1Head) {
         value = cbTx1Buffer[cbTx1Tail];
-        cbTx1Tail = (cbTx1Tail + 1) % CBTX1_BUFFER_SIZE;
+        cbTx1Tail++;
+        if (cbTx1Tail >= CBTX1_BUFFER_SIZE) {
+            cbTx1Tail = 0;
+        }
         return value;
     }
     return 0;
@@ -57,14 +64,16 @@ unsigned char CB_TX1_IsTranmitting(void) {
 }
 
 int CB_TX1_GetDataSize(void) {
-    //return size of data stored in circular buffer
     int dataSize;
-    dataSize = (cbTx1Head - cbTx1Tail + CBTX1_BUFFER_SIZE) % CBTX1_BUFFER_SIZE;
+    if (cbTx1Head >= cbTx1Tail) {
+        dataSize = cbTx1Head - cbTx1Tail;
+    } else {
+        dataSize = CBTX1_BUFFER_SIZE - (cbTx1Tail - cbTx1Head);
+    }
     return dataSize;
 }
 
 int CB_TX1_GetRemainingSize(void) {
-    //return size of remaining size in circular buffer
     int remainingSize;
     remainingSize = (CBTX1_BUFFER_SIZE - 1 - CB_TX1_GetDataSize());
     return remainingSize;

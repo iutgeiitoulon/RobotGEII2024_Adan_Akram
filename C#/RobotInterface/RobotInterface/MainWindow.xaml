@@ -19,7 +19,7 @@
             <TextBox x:Name="textboxEmission" Background="Beige"  KeyUp="TextBoxEmission_KeyUp" ></TextBox>
         </GroupBox>
         <GroupBox Header="Reception" Grid.Column="1" BorderBrush="#FFFF7601">
-            <TextBox x:Name="textboxReception" Background="AliceBlue" ></TextBox>
+            <TextBox x:Name="textboxReception" Background="AliceBlue" AcceptsReturn="True" ></TextBox>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" Width="200.576666666667" Margin="0,0,8,0">
             <Button x:Name="buttonSend" Content="Envoyer" Margin="11 

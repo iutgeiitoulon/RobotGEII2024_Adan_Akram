@@ -19,7 +19,7 @@ void InitUART(void) {
 
     U1STAbits.URXISEL = 0; // Interrupt after one RX character is received;
     IFS0bits.U1RXIF = 0; // Enable clear RX interrupt flag
-    IEC0bits.U1RXIE = 0; //  UART Rx interrupt
+    IEC0bits.U1RXIE = 1; //  UART Rx interrupt
     
     U1MODEbits.UARTEN = 1; // Enable UART
     U1STAbits.UTXEN = 1; // Enable UART Tx
@@ -45,3 +45,4 @@ void SendMessageDirect(unsigned char* message, int length) {
         U1TXREG = *(message)++; // Transmit one character
     }
 }
+

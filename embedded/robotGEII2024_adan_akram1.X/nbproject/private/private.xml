@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/IO.c</file>
+            <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/PWM.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/IO.h</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/UART.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/timer.c</file>
@@ -12,10 +13,13 @@
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/PWM.h</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/main.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/CB_RX1.c</file>
+            <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/ADC.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/CB_RX1.h</file>
+            <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/ChipConfig.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/CB_TX1.c</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/ChipConfig.h</file>
             <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/CB_TX1.h</file>
+            <file>file:/C:/Github/RobotGEII2024_Adan_Akram/embedded/robotGEII2024_adan_akram1.X/ToolBox.c</file>
         </group>
     </open-files>
 </project-private>

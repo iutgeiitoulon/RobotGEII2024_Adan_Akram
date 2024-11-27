@@ -40,11 +40,14 @@ namespace RobotInterface
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
+
         {
             for (int i = 0; i < e.Data.Length; i++)
             {
                 robot.byteListReceived.Enqueue(e.Data[i]);
-            }     
+
+            }
+            string receivedText = Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
             //this.robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
@@ -82,12 +85,48 @@ namespace RobotInterface
 
         private void ButtonTest_Click(object sender, RoutedEventArgs e)
         {
-            byte[] byteList = new byte[20];
+            /*byte[] byteList = new byte[20];
             for (int i = 0; i < byteList.Length; i++)
             {
                 byteList[i] = (byte)(2 * i);
             }
-            serialPort1.Write(byteList, 0, byteList.Length);
+            byteList[byteList.Length - 1] = (byte)'\n';
+            serialPort1.Write(byteList, 0, byteList.Length);*/
+            string messageStr = "Hello";
+            byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
+            int msgPayloadLength = msgPayload.Length;
+            int msgFunction = 0x0080;
+            UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
+        }
+
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte checksum = 0;
+            checksum ^= 0xFE;
+            checksum ^= 0x00;
+            checksum ^= (byte)(msgFunction & 0xFF);
+            checksum ^= (byte)((msgPayloadLength >> 8) & 0xFF);
+            checksum ^= (byte)(msgPayloadLength & 0xFF);
+            foreach (byte b in msgPayload)
+            {
+                checksum ^= b;
+            }
+            return checksum;
+        }
+
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte[] message = new byte[3 + msgPayloadLength];
+            message[0] = 0xFE;
+            message[1] = 0x00;
+            message[2] = (byte)(msgFunction & 0xFF);
+            for (int i = 0; i < msgPayloadLength; i++)
+            {
+                message[3 + i] = msgPayload[i];
+            }
+            byte checksum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+            message[3 + msgPayloadLength] = checksum;
+            serialPort1.Write(message, 0, message.Length);
         }
     }
 }
