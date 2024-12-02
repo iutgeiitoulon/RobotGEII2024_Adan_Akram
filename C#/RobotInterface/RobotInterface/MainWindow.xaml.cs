@@ -1,5 +1,6 @@
 ﻿using ExtendedSerialPort_NS;
 using System.IO.Ports;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -35,7 +36,12 @@ namespace RobotInterface
             //robot.receivedText = "";
             for (int i = 0; i < robot.byteListReceived.Count; i++)
             {
-                textboxReception.Text += "0x"+robot.byteListReceived.Dequeue().ToString("X2") + " ";
+                //textboxReception.Text += "0x" + robot.byteListReceived.Dequeue().ToString("X2") + " ";
+                byte receivedByte = robot.byteListReceived.Dequeue();
+                string asciiChar = (receivedByte >= 32 && receivedByte <= 126) ? ((char)receivedByte).ToString() : " ";  // Si c'est un caractère ASCII imprimable, on le montre, sinon on affiche un point.
+
+                textboxReception.Text += asciiChar + "";
+                
             }
         }
 
@@ -131,5 +137,89 @@ namespace RobotInterface
             message[pos++] = c;
             serialPort1.Write(message, 0, pos);
         }
+        public enum StateReception
+        {
+            Waiting,
+            FunctionMSB,
+            FunctionLSB,
+            PayloadLengthMSB,
+            PayloadLengthLSB,
+            Payload,
+            CheckSum
+        }
+        StateReception rcvState = StateReception.Waiting;
+        int msgDecodedFunction = 0;
+        int msgDecodedPayloadLength = 0;
+        byte[] msgDecodedPayload;
+        int msgDecodedPayloadIndex = 0;
+        int a = 0, b = 0;
+
+        private void DecodeMessage(byte c)
+        {
+            switch (rcvState)
+            {
+                case StateReception.Waiting:
+                    if (c == 0xFE)
+                        rcvState = StateReception.FunctionMSB;
+                    break;
+                case StateReception.FunctionMSB:
+                    msgDecodedFunction = c << 8;
+                    rcvState = StateReception.FunctionLSB;
+                    break;
+                case StateReception.FunctionLSB:
+                    msgDecodedFunction |= c;
+                    rcvState = StateReception.PayloadLengthMSB;
+                    break;
+                case StateReception.PayloadLengthMSB:
+                    msgDecodedPayloadLength = c << 8;
+                    rcvState = StateReception.PayloadLengthLSB;
+                    break;
+                case StateReception.PayloadLengthLSB:
+                    msgDecodedPayloadLength |= c;
+
+                    if (msgDecodedPayloadLength > 1024)
+                    {
+                        rcvState = StateReception.Waiting;
+                    }
+                    else if(msgDecodedPayloadLength > 0)
+                    {
+                        msgDecodedPayload = new byte[msgDecodedPayloadLength];
+                        msgDecodedPayloadIndex = 0;
+                        rcvState = StateReception.Payload;
+                    }
+                    else
+                    {
+                        rcvState = StateReception.CheckSum;
+                    }
+                    break;
+                case StateReception.Payload:
+                    msgDecodedPayload[msgDecodedPayloadIndex++] = c;
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                    {
+                        rcvState = StateReception.CheckSum;
+                    }
+                    break;
+                case StateReception.CheckSum:
+                    byte receivedChecksum = c;
+                    byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+
+                    if (receivedChecksum == calculatedChecksum)
+                    {
+                        textboxReception.Text += "Message valide reçu: ";
+                        textboxReception.Text += "Fonction: " + msgDecodedFunction + ", Taille Payload: " + msgDecodedPayloadLength + "\n";
+                        textboxReception.Text += "Payload: " + Encoding.ASCII.GetString(msgDecodedPayload) + "\n";
+                    }
+                    else
+                    {
+                        textboxReception.Text += "Erreur de checksum ! Message rejeté.\n";
+                    }
+                    rcvState = StateReception.Waiting;
+                    break;
+                default:
+                    rcvState = StateReception.Waiting;
+                    break;
+            }
+        }
     }
 }
+
