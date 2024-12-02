@@ -154,6 +154,31 @@ namespace RobotInterface
         int msgDecodedPayloadIndex = 0;
         int a = 0, b = 0;
 
+        private void textboxEmission1_Copy1_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked_3(object sender, RoutedEventArgs e)
+        {
+            MouseLeftButtonDown 4
+        }
+
         private void DecodeMessage(byte c)
         {
             switch (rcvState)
