@@ -21,7 +21,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -176,7 +176,12 @@ namespace RobotInterface
 
         private void CheckBox_Checked_3(object sender, RoutedEventArgs e)
         {
-            MouseLeftButtonDown 4
+          
+        }
+
+        private void Mot_KeyUp(object sender, KeyEventArgs e)
+        {
+
         }
 
         private void DecodeMessage(byte c)

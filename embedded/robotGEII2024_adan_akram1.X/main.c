@@ -104,7 +104,7 @@ int main(void) {
     }*/
 
 
-/*
+
 void Cap() {
     if (robotState.distanceTelemetreExDroite < 24) {
         LED_VERTE_1 = 1;
@@ -133,7 +133,7 @@ void Cap() {
     }
 }
 
-
+/*
 unsigned char nextStateRobot = 0;
 
 void SetNextRobotStateInAutomaticMode() {

@@ -9,41 +9,72 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="0.2*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="1.5*" />
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Emission" Grid.Column="0" BorderBrush="#FF123950" Margin="7,7">
             <TextBox x:Name="textboxEmission" Background="WhiteSmoke"  KeyUp="TextBoxEmission_KeyUp"  ></TextBox>
         </GroupBox>
-        <GroupBox Header="Reception" Grid.Row="0" Grid.Column="1" BorderBrush="SlateGray" Margin="7,7">
+        <GroupBox Header="Reception" Grid.Row="0" Grid.Column="2" BorderBrush="SlateGray" Margin="7,7">
             <TextBox x:Name="textboxReception" Background="WhiteSmoke" AcceptsReturn="True" ></TextBox>
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button x:Name="buttonSend" Content="Envoyer" Margin="5" Click="ButtonSend_Click" KeyUp="TextBoxEmission_KeyUp" Width="100" />
-            <Button x:Name="buttonTest" Content="Test" Margin="5" Click="ButtonTest_Click" Width="100" RenderTransformOrigin="0.508,0.571" />
-            <Button x:Name="buttonClear" Content="Effacer" Margin="5" Click="buttonClear_Click" Width="100" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+            <Button x:Name="buttonSend" Content="Envoyer" Margin="5" Click="ButtonSend_Click" KeyUp="TextBoxEmission_KeyUp" Width="100" Background="WhiteSmoke"/>
+            <Button x:Name="buttonTest" Content="Test" Margin="5" Click="ButtonTest_Click" Width="100" RenderTransformOrigin="0.508,0.571" Background="WhiteSmoke" />
+            <Button x:Name="buttonClear" Content="Effacer" Margin="5" Click="buttonClear_Click" Width="100"  />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="15,0,0,0">
-            <GroupBox Header="E-Leds" Grid.Row="0" Grid.Column="0" BorderBrush="SlateGray" Margin="10" Width="70" Background="WhiteSmoke">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <GroupBox Header="E-Leds" Grid.Row="0" Grid.Column="0" BorderBrush="SlateGray" Margin="48" Width="70" Background="FloralWhite">
                 <StackPanel Orientation="Vertical">
                     <CheckBox Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                    <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,1" Width="35"/>
-                    <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,1" Width="35"/>
-                    <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,1" Width="35"/>
-                    <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,1" Width="35"/>
+                    <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                    <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                    <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                    <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Télémètres IR" Grid.Row="0" Grid.Column="1" BorderBrush="SlateGray" Margin="10" Width="180">
-                <TextBox x:Name="telIR" Background="WhiteSmoke" KeyUp="TelIR_KeyUp" ></TextBox>
-            </GroupBox>
-            <GroupBox Header="Moteur" Grid.Column="0" BorderBrush="SlateGray" Margin="10" Width="220">
-                <TextBox x:Name="Mot" Background="WhiteSmoke" KeyUp="Mot_KeyUp" ></TextBox>
+            <GroupBox Header="Moteur" Grid.Column="0" BorderBrush="ForestGreen" Margin="70" Width="220" >
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Content="Moteur Gauche : " VerticalAlignment="Center" Margin="2"/>
+                        <TextBlock Name="ValueMotGauche" Text="ValueMotGauche" VerticalAlignment="Center" Margin="2"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Content="Moteur Droit : " VerticalAlignment="Center" Margin="2"/>
+                        <TextBlock Name="ValueMotDroit" Text="ValueMotDroit" VerticalAlignment="Center" Margin="2"/>
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
         </StackPanel>
-            
+        <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="3" BorderBrush="SeaGreen" Margin="40" Width="300" Background="WhiteSmoke">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Ex Gauche : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Value1" Margin="2" VerticalAlignment="Center" Name="ValueIRExGauche" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Gauche : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Value2" Margin="2" VerticalAlignment="Center" Name="ValueIRGauche" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Centre : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Value3" Margin="2" VerticalAlignment="Center" Name="ValueIRCentre" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Droit : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Value4" Margin="2" VerticalAlignment="Center" Name="ValueIRDroit" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Ex Droit : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="Value5" Margin="2" VerticalAlignment="Center" Name="ValueIRExDroit" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>
+    
