@@ -228,6 +228,8 @@ namespace RobotInterface
                     {
                         rcvState = StateReception.CheckSum;
                     }
+                    // switch case 
+
                     break;
                 case StateReception.CheckSum:
                     byte receivedChecksum = c;

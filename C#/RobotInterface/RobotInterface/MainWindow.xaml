@@ -8,8 +8,8 @@
         Title="MainWindow" Height="700" Width="1000">
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="0.8*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Emission" Grid.Column="0" BorderBrush="#FF123950" Margin="7,7">
+        <GroupBox Header="Emission" Grid.Column="0" Grid.Row="0" BorderBrush="#FF123950" Grid.ColumnSpan="2" Margin="7,7">
             <TextBox x:Name="textboxEmission" Background="WhiteSmoke"  KeyUp="TextBoxEmission_KeyUp"  ></TextBox>
         </GroupBox>
         <GroupBox Header="Reception" Grid.Row="0" Grid.Column="2" BorderBrush="SlateGray" Margin="7,7">
@@ -28,30 +28,30 @@
             <Button x:Name="buttonTest" Content="Test" Margin="5" Click="ButtonTest_Click" Width="100" RenderTransformOrigin="0.508,0.571" Background="WhiteSmoke" />
             <Button x:Name="buttonClear" Content="Effacer" Margin="5" Click="buttonClear_Click" Width="100"  />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0">
-            <GroupBox Header="E-Leds" Grid.Row="0" Grid.Column="0" BorderBrush="SlateGray" Margin="48" Width="70" Background="FloralWhite">
-                <StackPanel Orientation="Vertical">
-                    <CheckBox Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                    <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                    <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                    <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                    <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+       
+        <GroupBox Header="E-Leds" Grid.Row="2" Grid.Column="0" BorderBrush="SlateGray" Background="FloralWhite">
+            <StackPanel Orientation="Vertical">
+                <CheckBox Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Moteur" Grid.Column="1" Grid.Row="2" BorderBrush="ForestGreen" Margin="70" Width="220" >
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Moteur Gauche : " VerticalAlignment="Center" Margin="2"/>
+                    <TextBlock Name="ValueMotGauche" Text="ValueMotGauche" VerticalAlignment="Center" Margin="2"/>
                 </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Moteur" Grid.Column="0" BorderBrush="ForestGreen" Margin="70" Width="220" >
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Content="Moteur Gauche : " VerticalAlignment="Center" Margin="2"/>
-                        <TextBlock Name="ValueMotGauche" Text="ValueMotGauche" VerticalAlignment="Center" Margin="2"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Label Content="Moteur Droit : " VerticalAlignment="Center" Margin="2"/>
-                        <TextBlock Name="ValueMotDroit" Text="ValueMotDroit" VerticalAlignment="Center" Margin="2"/>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Moteur Droit : " VerticalAlignment="Center" Margin="2"/>
+                    <TextBlock Name="ValueMotDroit" Text="ValueMotDroit" VerticalAlignment="Center" Margin="2"/>
                 </StackPanel>
-            </GroupBox>
-        </StackPanel>
-        <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="3" BorderBrush="SeaGreen" Margin="40" Width="300" Background="WhiteSmoke">
+            </StackPanel>
+        </GroupBox>
+      
+        <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="3" BorderBrush="SeaGreen" Margin="40" Background="WhiteSmoke">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="IR Ex Gauche : " Margin="2" VerticalAlignment="Center" />
