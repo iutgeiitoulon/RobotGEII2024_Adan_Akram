@@ -48,20 +48,7 @@ int main(void) {
     InitUART();
     SetFreqTimer4(1000);
 
-    // BOUCLE PRINCIPALE
-    while (1) {
-        unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
-        UartEncodeAndSendMessage(0x0080, 4, payload);
-
-        /*for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
-            unsigned char c = CB_RX1_Get();
-            SendMessage(&c, 1);
-        }*/
-        __delay32(40000000);
-    }
-    return 0;
-
-   if (ADCIsConversionFinished() == 1) {
+    if (ADCIsConversionFinished() == 1) {
         ADCClearConversionFinishedFlag();
         unsigned int * result = ADCGetResult();
         float volts = ((float) result [0])* 3.3 / 4096;
@@ -75,17 +62,34 @@ int main(void) {
         volts = ((float) result [4])* 3.3 / 4096;
         robotState.distanceTelemetreExDroite = 34 / volts - 5;
     }
-
+    
+    
+    // BOUCLE PRINCIPALE
+    while (1) {
+        //unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
+        //UartEncodeAndSendMessage(0x0080, sizeof(payload), payload);
+        //__delay32(40000000);
+        
+        /*for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
+            unsigned char c = CB_RX1_Get();
+            SendMessage(&c, 1);
+        }*/
+        UartEncodeAndSendMessage(0x0030, sizeof(payload), payload);
+        
+    }
+    
+    return 0;
+    
     if (TIME1 == 1) {
         tstart = 1;
         tstop = 0;
     }
 
-    VitesseCentre();
-    VitesseDroit();
-    VitesseExtremeDroit();
-    VitesseGauche();
-    VitesseExtremeGauche();
+    //VitesseCentre();
+    //VitesseDroit();
+    //VitesseExtremeDroit();
+    //VitesseGauche();
+    //VitesseExtremeGauche();
 
     if (Vitesse > 21) {
         LED_BLANCHE_2 = 1;
@@ -106,7 +110,6 @@ int main(void) {
         LED_VERTE_2 = 1;
     }
 }
-
 
 void Cap() {
     if (robotState.distanceTelemetreExDroite < 24) {

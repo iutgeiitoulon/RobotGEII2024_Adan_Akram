@@ -38,7 +38,7 @@ namespace RobotInterface
             {
                 //textboxReception.Text += "0x" + robot.byteListReceived.Dequeue().ToString("X2") + " ";
                 byte receivedByte = robot.byteListReceived.Dequeue();
-                string asciiChar = (receivedByte >= 32 && receivedByte <= 126) ? ((char)receivedByte).ToString() : " ";  // Si c'est un caractère ASCII imprimable, on le montre, sinon on affiche un point.
+                string asciiChar = (receivedByte >= 32 && receivedByte <= 126) ? ((char)receivedByte).ToString() : " ";
 
                 textboxReception.Text += asciiChar + "";
                 
@@ -106,7 +106,7 @@ namespace RobotInterface
         }
 
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
-        {
+        {;
             byte c = 0;
             c ^= 0xFE;
             c ^= (byte)(msgFunction >> 8);
@@ -236,9 +236,7 @@ namespace RobotInterface
                     if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
                     {
                         rcvState = StateReception.CheckSum;
-                    }
-                    // switch case 
-
+                    } 
                     break;
                 case StateReception.CheckSum:
                     byte receivedChecksum = c;
@@ -249,6 +247,21 @@ namespace RobotInterface
                         textboxReception.Text += "Message valide reçu: ";
                         textboxReception.Text += "Fonction: " + msgDecodedFunction + ", Taille Payload: " + msgDecodedPayloadLength + "\n";
                         textboxReception.Text += "Payload: " + Encoding.ASCII.GetString(msgDecodedPayload) + "\n";
+
+                        if (msgDecodedFunction == 0x0030 && msgDecodedPayloadLength >= 3) 
+                        {
+                            byte exgauche = msgDecodedPayload[0];
+                            byte gauche = msgDecodedPayload[1];
+                            byte centre = msgDecodedPayload[2];
+                            byte droit = msgDecodedPayload[3];
+                            byte eexdroit = msgDecodedPayload[4];
+
+                            ValueIRExGauche.Text = "{exgauche} cm";
+                            ValueIRGauche.Text = "{gauche} cm";
+                            ValueIRCentre.Text = "{centre} cm";
+                            ValueIRDroit.Text = "{droit} cm";
+                            ValueIRExDroit.Text = "{exdroit} cm";
+                        }
                     }
                     else
                     {

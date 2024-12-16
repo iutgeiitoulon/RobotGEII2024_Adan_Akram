@@ -54,24 +54,24 @@
         <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="3" BorderBrush="SeaGreen" Margin="40" Background="WhiteSmoke">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="IR Ex Gauche : " Margin="2" VerticalAlignment="Center" />
-                    <TextBlock Text="Value1" Margin="2" VerticalAlignment="Center" Name="ValueIRExGauche" />
+                    <Label Content="IRExGauche : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="ValueIRExGauche" Margin="2" VerticalAlignment="Center" Name="ValueIRExGauche" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="IR Gauche : " Margin="2" VerticalAlignment="Center" />
-                    <TextBlock Text="Value2" Margin="2" VerticalAlignment="Center" Name="ValueIRGauche" />
+                    <Label Content="IRGauche : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="ValueIRGauche" Margin="2" VerticalAlignment="Center" Name="ValueIRGauche" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="IR Centre : " Margin="2" VerticalAlignment="Center" />
-                    <TextBlock Text="Value3" Margin="2" VerticalAlignment="Center" Name="ValueIRCentre" />
+                    <Label Content="IRCentre : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="ValueIRCentre" Margin="2" VerticalAlignment="Center" Name="ValueIRCentre" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="IR Droit : " Margin="2" VerticalAlignment="Center" />
-                    <TextBlock Text="Value4" Margin="2" VerticalAlignment="Center" Name="ValueIRDroit" />
+                    <Label Content="IRDroit : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="ValueIRDroit" Margin="2" VerticalAlignment="Center" Name="ValueIRDroit" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="IR Ex Droit : " Margin="2" VerticalAlignment="Center" />
-                    <TextBlock Text="Value5" Margin="2" VerticalAlignment="Center" Name="ValueIRExDroit" />
+                    <Label Content="IRExDroit : " Margin="2" VerticalAlignment="Center" />
+                    <TextBlock Text="ValueIRExDroit" Margin="2" VerticalAlignment="Center" Name="ValueIRExDroit" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>
