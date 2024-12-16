@@ -21,9 +21,9 @@
 #include "CB_RX1.h"
 #include <libpic30.h>
 
-//unsigned char stateRobot;
-//unsigned int tstart = 0;
-//float Vitesse;
+unsigned char stateRobot;
+unsigned int tstart = 0;
+float Vitesse;
 
 //void VitesseGauche();
 //void VitesseDroite();
@@ -57,12 +57,11 @@ int main(void) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        __delay32(1000);
+        __delay32(40000000);
     }
     return 0;
-}
 
-/*    if (ADCIsConversionFinished() == 1) {
+   if (ADCIsConversionFinished() == 1) {
         ADCClearConversionFinishedFlag();
         unsigned int * result = ADCGetResult();
         float volts = ((float) result [0])* 3.3 / 4096;
@@ -105,8 +104,8 @@ int main(void) {
         LED_ORANGE_2 = 1;
         LED_ROUGE_2 = 1;
         LED_VERTE_2 = 1;
-    }*/
-
+    }
+}
 
 
 void Cap() {
