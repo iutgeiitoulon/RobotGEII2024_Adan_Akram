@@ -32,7 +32,7 @@
         <GroupBox Header="E-Leds" Grid.Row="2" Grid.Column="0" BorderBrush="SlateGray" Background="FloralWhite">
             <StackPanel Orientation="Vertical">
                 <CheckBox Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Unchecked="CheckBox_Unchecked"/>
                 <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
                 <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
                 <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>

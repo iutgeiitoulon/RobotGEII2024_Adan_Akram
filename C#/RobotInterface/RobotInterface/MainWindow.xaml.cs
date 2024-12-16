@@ -161,7 +161,11 @@ namespace RobotInterface
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-
+            string messageStr = "Bonjour";
+            byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
+            int msgPayloadLength = msgPayload.Length;
+            int msgFunction = 0x0080;
+            UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
         }
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
@@ -180,6 +184,11 @@ namespace RobotInterface
         }
 
         private void Mot_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
