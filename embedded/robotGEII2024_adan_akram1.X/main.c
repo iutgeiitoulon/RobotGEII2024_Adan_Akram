@@ -19,6 +19,7 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "UART_protocol.h"
 #include <libpic30.h>
 
 unsigned char stateRobot;
@@ -47,8 +48,9 @@ int main(void) {
     InitADC1();
     InitUART();
     SetFreqTimer4(1000);
-
-    if (ADCIsConversionFinished() == 1) {
+    
+    unsigned char payload[];
+        if (ADCIsConversionFinished() == 1) {
         ADCClearConversionFinishedFlag();
         unsigned int * result = ADCGetResult();
         float volts = ((float) result [0])* 3.3 / 4096;
@@ -61,25 +63,32 @@ int main(void) {
         robotState.distanceTelemetreDroit = 34 / volts - 5;
         volts = ((float) result [4])* 3.3 / 4096;
         robotState.distanceTelemetreExDroite = 34 / volts - 5;
+        payload [0] = robotState.distanceTelemetreExGauche;
+        payload [1] = robotState.distanceTelemetreGauche;
+        payload [2] = robotState.distanceTelemetreCentre;
+        payload [3] = robotState.distanceTelemetreDroit;
+        payload [4] = robotState.distanceTelemetreExDroite;
     }
-    
-    
+
+
+
     // BOUCLE PRINCIPALE
     while (1) {
         //unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
         //UartEncodeAndSendMessage(0x0080, sizeof(payload), payload);
         //__delay32(40000000);
-        
+
         /*for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        UartEncodeAndSendMessage(0x0030, sizeof(payload), payload);
         
+        UartEncodeAndSendMessage(0x0030, 4, payload);
+
     }
-    
+
     return 0;
-    
+
     if (TIME1 == 1) {
         tstart = 1;
         tstop = 0;
