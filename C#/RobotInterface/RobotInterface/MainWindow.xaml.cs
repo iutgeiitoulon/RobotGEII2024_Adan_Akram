@@ -3,6 +3,7 @@ using System.IO.Ports;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -32,16 +33,9 @@ namespace RobotInterface
 
         private void TimerAffichage_Tick(object? sender, EventArgs e)
         {
-            //textboxReception.Text += robot.receivedText;
-            //robot.receivedText = "";
             for (int i = 0; i < robot.byteListReceived.Count; i++)
             {
-                //textboxReception.Text += "0x" + robot.byteListReceived.Dequeue().ToString("X2") + " ";
-                byte receivedByte = robot.byteListReceived.Dequeue();
-                string asciiChar = (receivedByte >= 32 && receivedByte <= 126) ? ((char)receivedByte).ToString() : " ";
-
-                textboxReception.Text += asciiChar + "";
-                
+                DecodeMessage(robot.byteListReceived.Dequeue());
             }
         }
 
@@ -51,10 +45,7 @@ namespace RobotInterface
             for (int i = 0; i < e.Data.Length; i++)
             {
                 robot.byteListReceived.Enqueue(e.Data[i]);
-
             }
-            //string receivedText = Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-            //this.robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
 
@@ -77,7 +68,6 @@ namespace RobotInterface
             }
         }
 
-
         private void SendMessage()
         {
             serialPort1.WriteLine(textboxEmission.Text);
@@ -98,28 +88,14 @@ namespace RobotInterface
             }
             byteList[byteList.Length - 1] = (byte)'\n';
             serialPort1.Write(byteList, 0, byteList.Length);*/
-            string messageStr = "Bonjour";
-            byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
-            int msgPayloadLength = msgPayload.Length;
-            int msgFunction = 0x0080;
-            UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
+            //string messageStr = "Bonjour";
+            //byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
+            //int msgPayloadLength = msgPayload.Length;
+            //int msgFunction = 0x0080;
+            //UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
         }
 
-        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
-        {;
-            byte c = 0;
-            c ^= 0xFE;
-            c ^= (byte)(msgFunction >> 8);
-            c ^= (byte)(msgFunction);
-            c ^= (byte)(msgPayloadLength >> 8);
-            c ^= (byte)(msgPayloadLength);
-            foreach (byte b in msgPayload)
-            {
-                c ^= b;
-            }
-            return c;
-        }
-
+    
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             byte[] message = new byte[6 + msgPayloadLength];
@@ -152,47 +128,6 @@ namespace RobotInterface
         int msgDecodedPayloadLength = 0;
         byte[] msgDecodedPayload;
         int msgDecodedPayloadIndex = 0;
-        int a = 0, b = 0;
-
-        private void textboxEmission1_Copy1_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            string messageStr = "Bonjour";
-            byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
-            int msgPayloadLength = msgPayload.Length;
-            int msgFunction = 0x0080;
-            UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
-        }
-
-        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CheckBox_Checked_2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CheckBox_Checked_3(object sender, RoutedEventArgs e)
-        {
-          
-        }
-
-        private void Mot_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void DecodeMessage(byte c)
         {
             switch (rcvState)
@@ -220,7 +155,7 @@ namespace RobotInterface
                     {
                         rcvState = StateReception.Waiting;
                     }
-                    else if(msgDecodedPayloadLength > 0)
+                    else if (msgDecodedPayloadLength > 0)
                     {
                         msgDecodedPayload = new byte[msgDecodedPayloadLength];
                         msgDecodedPayloadIndex = 0;
@@ -236,7 +171,7 @@ namespace RobotInterface
                     if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
                     {
                         rcvState = StateReception.CheckSum;
-                    } 
+                    }
                     break;
                 case StateReception.CheckSum:
                     byte receivedChecksum = c;
@@ -244,24 +179,8 @@ namespace RobotInterface
 
                     if (receivedChecksum == calculatedChecksum)
                     {
-                        textboxReception.Text += "Message valide reçu: ";
-                        textboxReception.Text += "Fonction: " + msgDecodedFunction + ", Taille Payload: " + msgDecodedPayloadLength + "\n";
-                        textboxReception.Text += "Payload: " + Encoding.ASCII.GetString(msgDecodedPayload) + "\n";
 
-                        if (msgDecodedFunction == 0x0030 && msgDecodedPayloadLength >= 3) 
-                        {
-                            byte exgauche = msgDecodedPayload[0];
-                            byte gauche = msgDecodedPayload[1];
-                            byte centre = msgDecodedPayload[2];
-                            byte droit = msgDecodedPayload[3];
-                            byte eexdroit = msgDecodedPayload[4];
-
-                            ValueIRExGauche.Text = "{exgauche} cm";
-                            ValueIRGauche.Text = "{gauche} cm";
-                            ValueIRCentre.Text = "{centre} cm";
-                            ValueIRDroit.Text = "{droit} cm";
-                            ValueIRExDroit.Text = "{exdroit} cm";
-                        }
+                        ProcessDecodeMessage(msgDecodedFunction, msgDecodedPayload);
                     }
                     else
                     {
@@ -274,6 +193,90 @@ namespace RobotInterface
                     break;
             }
         }
+
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            ;
+            byte c = 0;
+            c ^= 0xFE;
+            c ^= (byte)(msgFunction >> 8);
+            c ^= (byte)(msgFunction);
+            c ^= (byte)(msgPayloadLength >> 8);
+            c ^= (byte)(msgPayloadLength);
+            foreach (byte b in msgPayload)
+            {
+                c ^= b;
+            }
+            return c;
+        }
+
+        private void ProcessDecodeMessage(int msgFunction, byte[] msgPayload)
+        {
+            switch (msgFunction)
+            {
+                case 0x0030:
+                    byte[] value = new byte[2];
+                    Buffer.BlockCopy(msgPayload, 0, value, 0, 2);
+                    ValueIRExGauche.Content = BitConverter.ToInt16(value, 0);
+                    Buffer.BlockCopy(msgPayload, 2, value, 0, 2);
+                    ValueIRGauche.Content = BitConverter.ToInt16(value, 0);
+                    Buffer.BlockCopy(msgPayload, 4, value, 0, 2);
+                    ValueIRCentre.Content = BitConverter.ToInt16(value, 0);
+                    Buffer.BlockCopy(msgPayload, 6, value, 0, 2);
+                    ValueIRDroit.Content = BitConverter.ToInt16(value, 0);
+                    Buffer.BlockCopy(msgPayload, 8, value, 0, 2);
+                    ValueIRExDroit.Content = BitConverter.ToInt16(value, 0);
+                    break;
+
+                case 0x0040:
+
+                    break;
+
+                default:
+                    break; 
+            }
+        }
+
+        private void textboxEmission1_Copy1_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            string messageStr = "Bonjour";
+            byte[] msgPayload = Encoding.ASCII.GetBytes(messageStr);
+            int msgPayloadLength = msgPayload.Length;
+            int msgFunction = 0x0080;
+            UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
+        }
+
+        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked_3(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Mot_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }
 

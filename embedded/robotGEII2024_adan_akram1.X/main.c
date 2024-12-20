@@ -25,12 +25,25 @@
 unsigned char stateRobot;
 unsigned int tstart = 0;
 float Vitesse;
+float boundaryTelemetre = 100;
 
-//void VitesseGauche();
-//void VitesseDroite();
-//void VitesseCentre();
-//void VitesseExtremeDroit();
-//void VitesseExtremeGauche();
+void updateSensorValues() {
+    if (ADCIsConversionFinished() == 1) {
+        ADCClearConversionFinishedFlag();
+        unsigned int *result = ADCGetResult();
+        float volts = ((float) result[0]) * 3.3 / 4096;
+        robotState.distanceTelemetreExGauche = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[1]) * 3.3 / 4096;
+        robotState.distanceTelemetreGauche = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[2]) * 3.3 / 4096;
+        robotState.distanceTelemetreCentre = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[3]) * 3.3 / 4096;
+        robotState.distanceTelemetreDroit = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[4]) * 3.3 / 4096;
+        robotState.distanceTelemetreExDroite = Min(34 / volts - 5, boundaryTelemetre);
+    }
+}
+
 
 int main(void) {
     /***********************************************************************************************/
@@ -48,29 +61,6 @@ int main(void) {
     InitADC1();
     InitUART();
     SetFreqTimer4(1000);
-    
-    unsigned char payload[];
-        if (ADCIsConversionFinished() == 1) {
-        ADCClearConversionFinishedFlag();
-        unsigned int * result = ADCGetResult();
-        float volts = ((float) result [0])* 3.3 / 4096;
-        robotState.distanceTelemetreExGauche = 34 / volts - 5;
-        volts = ((float) result [1])* 3.3 / 4096;
-        robotState.distanceTelemetreGauche = 34 / volts - 5;
-        volts = ((float) result [2])* 3.3 / 4096;
-        robotState.distanceTelemetreCentre = 34 / volts - 5;
-        volts = ((float) result [3])* 3.3 / 4096;
-        robotState.distanceTelemetreDroit = 34 / volts - 5;
-        volts = ((float) result [4])* 3.3 / 4096;
-        robotState.distanceTelemetreExDroite = 34 / volts - 5;
-        payload [0] = robotState.distanceTelemetreExGauche;
-        payload [1] = robotState.distanceTelemetreGauche;
-        payload [2] = robotState.distanceTelemetreCentre;
-        payload [3] = robotState.distanceTelemetreDroit;
-        payload [4] = robotState.distanceTelemetreExDroite;
-    }
-
-
 
     // BOUCLE PRINCIPALE
     while (1) {
@@ -82,9 +72,10 @@ int main(void) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        
-        UartEncodeAndSendMessage(0x0030, 4, payload);
+        updateSensorValues();
 
+        EnvoieDistanceTelemetre();
+        __delay32(4000000);
     }
 
     return 0;
@@ -94,11 +85,6 @@ int main(void) {
         tstop = 0;
     }
 
-    //VitesseCentre();
-    //VitesseDroit();
-    //VitesseExtremeDroit();
-    //VitesseGauche();
-    //VitesseExtremeGauche();
 
     if (Vitesse > 21) {
         LED_BLANCHE_2 = 1;
@@ -119,6 +105,7 @@ int main(void) {
         LED_VERTE_2 = 1;
     }
 }
+
 
 void Cap() {
     if (robotState.distanceTelemetreExDroite < 24) {

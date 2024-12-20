@@ -7,17 +7,27 @@
 #include "robot.h"
 #include "ADC.h"
 
-unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* payload) {
-    unsigned char c = 0;
-    c ^= 0xFE;
-    c ^= (char) (msgFunction >> 8);
-    c ^= (char) (msgFunction);
-    c ^= (char) (msgPayloadLength >> 8);
-    c ^= (char) (msgPayloadLength);
-    for (int i = 0; i < msgPayloadLength; i++) {
-        c ^= payload[i];
-    }
-    return c;
+
+// Fonction pour envoyer les valeurs des télémètres via UART
+void EnvoieDistanceTelemetre(){
+    unsigned char payload[10];
+    int val_ExG = (int) robotState.distanceTelemetreExGauche;
+    payload[0] = (unsigned char) ((int)robotState.distanceTelemetreExGauche);
+    payload[1] = (unsigned char) (((int)robotState.distanceTelemetreExGauche) >> 8);
+    payload[2] = (unsigned char) ((int)robotState.distanceTelemetreGauche);
+    payload[3] = (unsigned char) (((int)robotState.distanceTelemetreGauche) >> 8);
+    payload[4] = (unsigned char) ((int)robotState.distanceTelemetreCentre);
+    payload[5] = (unsigned char) (((int)robotState.distanceTelemetreCentre) >> 8);
+    payload[6] = (unsigned char) ((int)robotState.distanceTelemetreDroit);
+    payload[7] = (unsigned char) (((int)robotState.distanceTelemetreDroit) >> 8);
+    payload[8] = (unsigned char) ((int)robotState.distanceTelemetreExDroite);
+    payload[9] = (unsigned char) (((int)robotState.distanceTelemetreExDroite) >> 8);
+    UartEncodeAndSendMessage(0x0030, 10, payload);
+}
+
+
+void EvoieMoteurInfo(){
+    
 }
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* payload) {
@@ -36,11 +46,24 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
     SendMessage(message, pos);
 }
 
+unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* payload) {
+    unsigned char c = 0;
+    c ^= 0xFE;
+    c ^= (char) (msgFunction >> 8);
+    c ^= (char) (msgFunction);
+    c ^= (char) (msgPayloadLength >> 8);
+    c ^= (char) (msgPayloadLength);
+    for (int i = 0; i < msgPayloadLength; i++) {
+        c ^= payload[i];
+    }
+    return c;
+}
+
+
 int msgDecodedFunction = 0;
 int msgDecodedPayloadLength = 0;
 unsigned char msgDecodedPayload[128];
 int msgDecodedPayloadIndex = 0;
-
 StateReception rcvState = Waiting;
 
 void UartDecodeMessage(unsigned char c) {
@@ -99,16 +122,10 @@ void UartDecodeMessage(unsigned char c) {
 void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload) {
     switch (function) {
         case 0x0030:
-            if (payloadLength >= 3) {
-                robotState.distanceTelemetreExGauche = payload [0];
-                robotState.distanceTelemetreGauche = payload [1];
-                robotState.distanceTelemetreCentre = payload [2];
-                robotState.distanceTelemetreDroit = payload [3];
-                robotState.distanceTelemetreExDroite = payload [4];
-            }
             break;
-            /*case 0x0040:
-            
-                break;*/
+        case 0x0040:
+            break;
+        default :
+            break; 
     }
 }
