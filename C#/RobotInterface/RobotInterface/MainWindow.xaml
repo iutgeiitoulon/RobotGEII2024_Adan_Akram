@@ -31,22 +31,22 @@
        
         <GroupBox Header="E-Leds" Grid.Row="2" Grid.Column="0" BorderBrush="SlateGray" Background="FloralWhite" Margin="10,15,15,80">
             <StackPanel Orientation="Vertical">
-                <CheckBox Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                <CheckBox Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                <CheckBox Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                <CheckBox Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
-                <CheckBox Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35"/>
+                <CheckBox Name="LEDVerte" Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDVerte"/>
+                <CheckBox Name="LEDBleue" Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDBleue"/>
+                <CheckBox Name="LEDBlanche" Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDBlanche"/>
+                <CheckBox Name="LEDOrange" Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDOrange"/>
+                <CheckBox Name="LEDRouge" Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDRouge"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Moteur" Grid.Column="1" Grid.Row="2" BorderBrush="ForestGreen" Margin="70" Width="220" >
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Content="Moteur Gauche : " VerticalAlignment="Center" Margin="2"/>
-                    <TextBlock Name="ValueMotGauche" Text="ValueMotGauche" VerticalAlignment="Center" Margin="2"/>
+                    <Label Content="MotGauche : " VerticalAlignment="Center" Margin="2"/>
+                    <Label Name="ValMotGauche" Content="MotGauche" VerticalAlignment="Center" Margin="2"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Content="Moteur Droit : " VerticalAlignment="Center" Margin="2"/>
-                    <TextBlock Name="ValueMotDroit" Text="ValueMotDroit" VerticalAlignment="Center" Margin="2"/>
+                    <Label Content="MotDroit : " VerticalAlignment="Center" Margin="2"/>
+                    <Label Name="ValMotDroit" Content="MotDroit" VerticalAlignment="Center" Margin="2"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

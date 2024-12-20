@@ -95,7 +95,7 @@ namespace RobotInterface
             //UartEncodeAndSendMessage(msgFunction, msgPayloadLength, msgPayload);
         }
 
-    
+
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             byte[] message = new byte[6 + msgPayloadLength];
@@ -194,6 +194,77 @@ namespace RobotInterface
             }
         }
 
+        bool ELVerte = false;
+        bool ELRouge = false;
+        bool ELOrange = false;
+        bool ELBleue = false;
+        bool ELBlanche = false;
+
+        private void LEDRouge(object sender, RoutedEventArgs e)
+        {
+            ELRouge = !ELRouge;
+            byte[] array = new byte [2];
+            array [0] = 0;
+            array [1] = Convert.ToByte(ELRouge);
+            UartEncodeAndSendMessage(0x0020,2, array);
+        }
+
+        private void LEDOrange(object sender, RoutedEventArgs e)
+        {
+            ELOrange = !ELOrange;
+            byte[] array = new byte[2];
+            array[0] = 1;
+            array[1] = Convert.ToByte(ELOrange);
+            UartEncodeAndSendMessage(0x0020, 2, array);
+        }
+
+        private void LEDBlanche(object sender, RoutedEventArgs e)
+        {
+            ELBlanche = !ELBlanche;
+            byte[] array = new byte[2];
+            array[0] = 2;
+            array[1] = Convert.ToByte(ELBlanche);
+            UartEncodeAndSendMessage(0x0020, 2, array);
+        }
+
+        private void LEDBleue(object sender, RoutedEventArgs e)
+        {
+            ELBleue = !ELBleue;
+            byte[] array = new byte[2];
+            array[0] = 3;
+            array[1] = Convert.ToByte(ELBleue);
+            UartEncodeAndSendMessage(0x0020, 2, array);
+        }
+
+        private void LEDVerte(object sender, RoutedEventArgs e)
+        {
+            ELVerte = !ELVerte;
+            byte[] array = new byte[2];
+            array[0] = 4;
+            array[1] = Convert.ToByte(ELVerte);
+            UartEncodeAndSendMessage(0x0020, 2, array);
+        }
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_ATTENTE_EN_COURS = 1,
+            STATE_AVANCE = 2,
+            STATE_AVANCE_EN_COURS = 3,
+            STATE_TOURNE_GAUCHE = 4,
+            STATE_TOURNE_GAUCHE_EN_COURS = 5,
+            STATE_TOURNE_DROITE = 6,
+            STATE_TOURNE_DROITE_EN_COURS = 7,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS = 9,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS = 11,
+            STATE_ARRET = 12,
+            STATE_ARRET_EN_COURS = 13,
+            STATE_RECULE = 14,
+            STATE_RECULE_EN_COURS = 15
+        }
+
         byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
             ;
@@ -214,7 +285,30 @@ namespace RobotInterface
         {
             switch (msgFunction)
             {
-                case 0x0030:
+                case 0x0020:
+                    int Led = (int)msgPayload[0];
+                    if (Led == 0) 
+                    {
+                        ELVerte = Convert.ToBoolean(msgPayload[1]);
+                    }
+                    else if (Led == 1)
+                    {
+                        ELBleue = Convert.ToBoolean(msgPayload[1]);
+                    }
+                    else if (Led == 2)
+                    {
+                        ELBlanche = Convert.ToBoolean(msgPayload[1]);
+                    }
+                    else if (Led == 3)
+                    {
+                        ELOrange = Convert.ToBoolean(msgPayload[1]);
+                    }
+                    else if (Led == 4)
+                    {
+                        ELRouge = Convert.ToBoolean(msgPayload[1]);
+                    }
+                    break;
+                /*case 0x0030:
                     byte[] value = new byte[2];
                     Buffer.BlockCopy(msgPayload, 0, value, 0, 2);
                     ValueIRExGauche.Content = BitConverter.ToInt16(value, 0);
@@ -232,14 +326,23 @@ namespace RobotInterface
 
                     break;
 
+                case 0x0050:
+                    break;
+
+                case 0x0051:
+                    break;
+
+                case MsgFunction.RobotState:
+                    int instant = (((int)msgPayload[1]) << 24) + (((int)msgPayload[2]) << 16)
+                    + (((int)msgPayload[3]) << 8) + ((int)msgPayload[4]);
+                    rtbReception.Text += "\nRobot␣State␣:␣" +
+                    ((StateRobot)(msgPayload[0])).ToString() +
+                    "␣-␣" + instant.ToString() + "␣ms";
+                    break;
+                */
                 default:
-                    break; 
+                    break;
             }
-        }
-
-        private void textboxEmission1_Copy1_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -266,17 +369,15 @@ namespace RobotInterface
 
         }
 
-        private void Mot_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
 
         }
 
+        private void Mot_KeyUp(object sender, KeyEventArgs e)
+        {
 
+        }
     }
 }
 

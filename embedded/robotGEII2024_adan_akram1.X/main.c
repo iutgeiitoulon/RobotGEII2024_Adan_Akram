@@ -26,6 +26,7 @@ unsigned char stateRobot;
 unsigned int tstart = 0;
 float Vitesse;
 float boundaryTelemetre = 100;
+unsigned char payload;
 
 void updateSensorValues() {
     if (ADCIsConversionFinished() == 1) {
@@ -72,9 +73,9 @@ int main(void) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        updateSensorValues();
-
-        EnvoieDistanceTelemetre();
+        //updateSensorValues();
+        //EnvoieDistanceTelemetre();
+        sendled();
         __delay32(4000000);
     }
 

@@ -7,6 +7,9 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 void UartDecodeMessage(unsigned char c);
 void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload);
 void EnvoieDistanceTelemetre();
+void EvoieMoteurInfo();
+void sendled();
+
 
 typedef enum {
     Waiting,
