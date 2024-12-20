@@ -166,9 +166,7 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche < 25 &&
             robotState.distanceTelemetreExGauche < 20)
         positionObstacle = OBSTACLE_TRES_A_GAUCHE;
-    //Si l?on n?est pas dans la transition de lé?tape en cours
-
-    //éDtermination de lé?tat àvenir du robot
+   
     if (positionObstacle == PAS_D_OBSTACLE)
         nextStateRobot = STATE_AVANCE;
     else if (positionObstacle == OBSTACLE_A_DROITE)
@@ -178,7 +176,6 @@ void SetNextRobotStateInAutomaticMode() {
     else if (positionObstacle == OBSTACLE_EN_FACE)
         nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
 
-    //Si l?on n?est pas dans la transition de lé?tape en cours
     if (nextStateRobot != stateRobot - 1)
         stateRobot = nextStateRobot;
 }
