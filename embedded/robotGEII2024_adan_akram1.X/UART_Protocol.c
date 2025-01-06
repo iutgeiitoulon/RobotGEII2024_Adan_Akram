@@ -109,7 +109,6 @@ void UartDecodeMessage(unsigned char c) {
             break;
         case Payload:
             msgDecodedPayload[msgDecodedPayloadIndex++] = c;
-
             if (msgDecodedPayloadIndex >= msgDecodedPayloadLength) {
                 rcvState = CheckSum;
             }

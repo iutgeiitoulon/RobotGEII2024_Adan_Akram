@@ -18,28 +18,28 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Emission" Grid.Column="0" Grid.Row="0" BorderBrush="#FF123950" Grid.ColumnSpan="2" Margin="7,7">
-            <TextBox x:Name="textboxEmission" Background="WhiteSmoke"  KeyUp="TextBoxEmission_KeyUp"  ></TextBox>
+            <TextBox x:Name="textboxEmission" Background="#DEDFDE"  KeyUp="TextBoxEmission_KeyUp"  ></TextBox>
         </GroupBox>
         <GroupBox Header="Reception" Grid.Row="0" Grid.Column="2" BorderBrush="SlateGray" Margin="7,7">
-            <TextBox x:Name="textboxReception" Background="WhiteSmoke" AcceptsReturn="True" ></TextBox>
+            <TextBox x:Name="textboxReception" Background="#DEDFDE" AcceptsReturn="True" ></TextBox>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
             <Button x:Name="buttonSend" Content="Envoyer" Margin="5" Click="ButtonSend_Click" KeyUp="TextBoxEmission_KeyUp" Width="100" Background="WhiteSmoke"/>
             <Button x:Name="buttonTest" Content="Test" Margin="5" Click="ButtonTest_Click" Width="100" RenderTransformOrigin="0.508,0.571" Background="WhiteSmoke" />
             <Button x:Name="buttonClear" Content="Effacer" Margin="5" Click="buttonClear_Click" Width="100"  />
         </StackPanel>
-       
-        <GroupBox Header="E-Leds" Grid.Row="2" Grid.Column="0" BorderBrush="SlateGray" Background="FloralWhite" Margin="10,15,15,80">
+
+        <GroupBox Header="E-Leds" Grid.Row="2" Grid.Column="0" BorderBrush="SeaGreen" Background="White" Margin="10,40,15,55">
             <StackPanel Orientation="Vertical">
-                <CheckBox Name="LEDVerte" Content="L1" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDVerte"/>
-                <CheckBox Name="LEDBleue" Content="L2" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDBleue"/>
-                <CheckBox Name="LEDBlanche" Content="L3" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDBlanche"/>
-                <CheckBox Name="LEDOrange" Content="L4" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDOrange"/>
-                <CheckBox Name="LEDRouge" Content="L5" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="35" Checked="LEDRouge"/>
+                <CheckBox Name="LEDVerte" Content="LVer" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="45" Checked="LEDVerte"/>
+                <CheckBox Name="LEDBleue" Content="LBle" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="45" Checked="LEDBleue"/>
+                <CheckBox Name="LEDBlanche" Content="LBla" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="45" Checked="LEDBlanche"/>
+                <CheckBox Name="LEDOrange" Content="LOra" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="45" Checked="LEDOrange"/>
+                <CheckBox Name="LEDRouge" Content="LRou" HorizontalAlignment="Left" Height="21" Margin="5,3" Width="45" Checked="LEDRouge"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Moteur" Grid.Column="1" Grid.Row="2" BorderBrush="ForestGreen" Margin="70" Width="220" >
-            <StackPanel>
+        <GroupBox Header="Moteur" Grid.Column="1" Grid.Row="2" BorderBrush="ForestGreen" Margin="76,63,76,78" >
+            <StackPanel Height="115">
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="MotGauche : " VerticalAlignment="Center" Margin="2"/>
                     <Label Name="ValMotGauche" Content="MotGauche" VerticalAlignment="Center" Margin="2"/>
@@ -50,9 +50,9 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-      
- <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="3" BorderBrush="SeaGreen" Margin="40" Background="WhiteSmoke">
-            <StackPanel>
+
+        <GroupBox Header="Télémètres IR" Grid.Row="2" Grid.Column="2" BorderBrush="SeaGreen" Margin="50,40,50,40" Background="White">
+            <StackPanel Margin="0,0,-2,0">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="IRExGauche : " Margin="2" VerticalAlignment="Center" />
                     <Label Name="ValueIRExGauche" Content="ValueIRExG" Margin="2" VerticalAlignment="Center"/>

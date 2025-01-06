@@ -61,22 +61,24 @@ int main(void) {
     InitPWM();
     InitADC1();
     InitUART();
+    InitQEI1();    
+    InitQEI2();
     SetFreqTimer4(1000);
 
     // BOUCLE PRINCIPALE
     while (1) {
-        //unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
-        //UartEncodeAndSendMessage(0x0080, sizeof(payload), payload);
-        //__delay32(40000000);
+        unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
+        UartEncodeAndSendMessage(0x0080, sizeof(payload), payload);
+        __delay32(40000000);
 
         /*for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        //updateSensorValues();
-        //EnvoieDistanceTelemetre();
-        sendled();
-        __delay32(4000000);
+//        updateSensorValues();
+//        EnvoieDistanceTelemetre();
+//        sendled();
+//        __delay32(4000000);
     }
 
     return 0;
