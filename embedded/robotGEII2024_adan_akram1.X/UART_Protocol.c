@@ -7,24 +7,22 @@
 
 unsigned char UartCalculateChecksum(int msgFunction,int msgPayloadLength, unsigned char* payload)
 {
- char b=0;
  char c = 0;
  c ^= 0xFE;
  c ^= (char)(msgFunction >> 8);
  c ^= (char)(msgFunction);
  c ^= (char)(msgPayloadLength >> 8);
  c ^= (char)(msgPayloadLength);
- while (b == payload)
- {
-     c ^= b;
- }
+    for (unsigned int i = 0; i < msgPayloadLength; i++) {
+        c ^= payload[i];
+    }
  return c;
 
 }
 void UartEncodeAndSendMessage(int msgFunction,int msgPayloadLength, unsigned char* payload)
 {
- char message []= char[6 + msgPayloadLength];
- int pos = 0;
+ unsigned char message [6 + msgPayloadLength];
+ unsigned int pos = 0;
  message[pos++] = 0xFE;
  message[pos++] = (char)(msgFunction >> 8);
  message[pos++] = (char)(msgFunction);
