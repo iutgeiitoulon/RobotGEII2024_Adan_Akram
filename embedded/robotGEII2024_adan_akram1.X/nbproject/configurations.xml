@@ -17,6 +17,10 @@
       <itemPath>CB_RX1.h</itemPath>
       <itemPath>UART_Protocol.h</itemPath>
       <itemPath>QEI.h</itemPath>
+<<<<<<< HEAD
+=======
+      <itemPath>Utilities.h</itemPath>
+>>>>>>> 23771b5f426a252b99bc62a6ebc6b9456f10e45c
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -43,6 +47,10 @@
       <itemPath>CB_RX1.c</itemPath>
       <itemPath>UART_Protocol.c</itemPath>
       <itemPath>QEI.c</itemPath>
+<<<<<<< HEAD
+=======
+      <itemPath>Utilities.c</itemPath>
+>>>>>>> 23771b5f426a252b99bc62a6ebc6b9456f10e45c
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -56,7 +64,7 @@
         <targetDevice>dsPIC33EP512MU814</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD5Tool</platformTool>
+        <platformTool>ICD4Tool</platformTool>
         <languageToolchain>XCDSC</languageToolchain>
         <languageToolchainVersion>3.10</languageToolchainVersion>
         <platform>3</platform>

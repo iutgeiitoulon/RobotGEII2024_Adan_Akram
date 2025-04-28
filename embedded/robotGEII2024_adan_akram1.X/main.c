@@ -19,17 +19,32 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "UART_protocol.h"
 #include <libpic30.h>
 
 unsigned char stateRobot;
 unsigned int tstart = 0;
 float Vitesse;
+float boundaryTelemetre = 100;
+unsigned char payload;
 
-//void VitesseGauche();
-//void VitesseDroite();
-//void VitesseCentre();
-//void VitesseExtremeDroit();
-//void VitesseExtremeGauche();
+void updateSensorValues() {
+    if (ADCIsConversionFinished() == 1) {
+        ADCClearConversionFinishedFlag();
+        unsigned int *result = ADCGetResult();
+        float volts = ((float) result[0]) * 3.3 / 4096;
+        robotState.distanceTelemetreExGauche = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[1]) * 3.3 / 4096;
+        robotState.distanceTelemetreGauche = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[2]) * 3.3 / 4096;
+        robotState.distanceTelemetreCentre = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[3]) * 3.3 / 4096;
+        robotState.distanceTelemetreDroit = Min(34 / volts - 5, boundaryTelemetre);
+        volts = ((float) result[4]) * 3.3 / 4096;
+        robotState.distanceTelemetreExDroite = Min(34 / volts - 5, boundaryTelemetre);
+    }
+}
+
 
 int main(void) {
     /***********************************************************************************************/
@@ -46,46 +61,33 @@ int main(void) {
     InitPWM();
     InitADC1();
     InitUART();
+    InitQEI1();    
+    InitQEI2();
     SetFreqTimer4(1000);
 
     // BOUCLE PRINCIPALE
     while (1) {
         unsigned char payload[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
-        UartEncodeAndSendMessage(0x0080, 4, payload);
+        UartEncodeAndSendMessage(0x0080, sizeof(payload), payload);
+        __delay32(40000000);
 
         /*for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }*/
-        __delay32(40000000);
+//        updateSensorValues();
+//        EnvoieDistanceTelemetre();
+//        sendled();
+//        __delay32(4000000);
     }
-    return 0;
 
-   if (ADCIsConversionFinished() == 1) {
-        ADCClearConversionFinishedFlag();
-        unsigned int * result = ADCGetResult();
-        float volts = ((float) result [0])* 3.3 / 4096;
-        robotState.distanceTelemetreExGauche = 34 / volts - 5;
-        volts = ((float) result [1])* 3.3 / 4096;
-        robotState.distanceTelemetreGauche = 34 / volts - 5;
-        volts = ((float) result [2])* 3.3 / 4096;
-        robotState.distanceTelemetreCentre = 34 / volts - 5;
-        volts = ((float) result [3])* 3.3 / 4096;
-        robotState.distanceTelemetreDroit = 34 / volts - 5;
-        volts = ((float) result [4])* 3.3 / 4096;
-        robotState.distanceTelemetreExDroite = 34 / volts - 5;
-    }
+    return 0;
 
     if (TIME1 == 1) {
         tstart = 1;
         tstop = 0;
     }
 
-    VitesseCentre();
-    VitesseDroit();
-    VitesseExtremeDroit();
-    VitesseGauche();
-    VitesseExtremeGauche();
 
     if (Vitesse > 21) {
         LED_BLANCHE_2 = 1;
@@ -167,9 +169,7 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreCentre > 20 && robotState.distanceTelemetreGauche < 25 &&
             robotState.distanceTelemetreExGauche < 20)
         positionObstacle = OBSTACLE_TRES_A_GAUCHE;
-    //Si l?on n?est pas dans la transition de lé?tape en cours
-
-    //éDtermination de lé?tat àvenir du robot
+   
     if (positionObstacle == PAS_D_OBSTACLE)
         nextStateRobot = STATE_AVANCE;
     else if (positionObstacle == OBSTACLE_A_DROITE)
@@ -179,7 +179,6 @@ void SetNextRobotStateInAutomaticMode() {
     else if (positionObstacle == OBSTACLE_EN_FACE)
         nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
 
-    //Si l?on n?est pas dans la transition de lé?tape en cours
     if (nextStateRobot != stateRobot - 1)
         stateRobot = nextStateRobot;
 }
